@@ -1,0 +1,80 @@
+<div class="container-fluid p-0">
+  <div class="screen">
+    <div class="login-header">
+      <h1>WELCOME TO CMMS</h1>
+    </div>
+    <div class="login-content">
+      <p>Log In</p>
+      <form [formGroup]="loginForm" (keyup.enter)="onLogin()">
+        <mat-label class="label">User Name</mat-label>
+        <mat-form-field appearance="outline">
+          <input
+            type="text"
+            matInput
+            placeholder="User Name"
+            formControlName="email"
+          />
+          <mat-icon matPrefix class="my-icon">person</mat-icon>
+        </mat-form-field>
+        <mat-hint class="mat-error">
+          <span
+            *ngIf="
+              loginForm.controls['email'].hasError('required') &&
+              loginForm.controls['email'].touched
+            "
+          >
+            This field is required</span
+          >
+        </mat-hint>
+
+        <mat-label class="label">Password</mat-label>
+        <mat-form-field appearance="outline">
+          <input
+            [type]="showpassword ? 'text' : 'password'"
+            matInput
+            placeholder="Password"
+            formControlName="password"
+          />
+          <mat-icon matPrefix class="my-icon">lock</mat-icon>
+          <button
+            mat-button
+            matSuffix
+            mat-icon-button
+            type="button"
+            (click)="onShowPassword()"
+          >
+            <mat-icon *ngIf="!showpassword" class="password-icon"
+              >visibility_off</mat-icon
+            >
+            <mat-icon *ngIf="showpassword" class="password-icon"
+              >visibility</mat-icon
+            >
+          </button>
+        </mat-form-field>
+        <mat-hint class="mat-error">
+          <span
+            *ngIf="
+              loginForm.controls['password'].hasError('required') &&
+              loginForm.controls['password'].touched
+            "
+            >This field is required</span
+          ></mat-hint
+        >
+        <mat-checkbox class="checkbox">Remember me</mat-checkbox>
+      </form>
+      <div class="login-action d-flex justify-content-end">
+        <button
+          class="button btn--login"
+          mat-raised-button
+          (click)="onLogin()"
+          [disabled]="loginForm.invalid"
+        >
+          Log In
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="loading" *ngIf="isLoading">
+  <img src="/assets/images/loading_spinner.gif" />
+</div>

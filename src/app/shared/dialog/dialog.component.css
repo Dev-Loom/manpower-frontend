@@ -1,0 +1,129 @@
+.container-fluid {
+  position: relative;
+}
+.logout {
+  padding: 2rem;
+}
+svg {
+  position: absolute;
+  left: 2rem;
+}
+h1 {
+  display: block;
+  overflow: hidden;
+  color: rgba(0, 0, 0, 0.85);
+  font-weight: 500;
+  font-size: 1.6rem;
+  line-height: 1.4;
+  margin-left: 3.8rem;
+}
+p {
+  margin-top: 0.8rem;
+  color: rgba(0, 0, 0, 0.65);
+  font-size: 1.4rem;
+  margin-left: 3.8rem;
+}
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 3.2rem;
+  font-size: 1.4rem;
+}
+.btn--cancel {
+  box-shadow: 0 2px 0 rgb(0 0 0 / 2%);
+  border: 1px solid #d9d9d9;
+}
+.btn--submit {
+  background: #ba2525;
+  border-color: #ba2525;
+  box-shadow: 0 2px 0 rgb(0 0 0 / 5%);
+  color: #fff;
+}
+.btn--reset {
+  color: #197edb;
+}
+.filter-container {
+  position: relative;
+  height: fit-content;
+}
+.filter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f3f6f9;
+  padding: 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+.filter-header mat-icon {
+  cursor: pointer;
+}
+.filter-wrapper {
+  padding: 2rem;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 1rem;
+  height: 30rem;
+  overflow: auto;
+}
+.filter {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  max-width: 48%;
+  min-width: 48%;
+  justify-content: center;
+}
+
+.filter mat-form-field {
+  padding: 0;
+}
+.filter ::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
+  padding: 0.8rem;
+}
+.filter-action {
+  background: #f3f6f9;
+  display: flex;
+  justify-content: space-between;
+  padding: 2rem;
+  background: #f3f6f9;
+  width: 100%;
+  position: sticky;
+  bottom: 0;
+}
+.radio-group {
+  margin: 3.25px 0;
+  padding-bottom: 18.8px;
+  align-items: center;
+  display: flex;
+  gap: 2rem;
+}
+
+::ng-deep .mat-dialog-container {
+  border-radius: 1rem;
+  padding: 0;
+  /* border-top-right-radius: 0;
+  border-bottom-right-radius: 0; */
+}
+::ng-deep .ngx-slider .ngx-slider-pointer {
+  width: 2rem !important;
+  height: 2rem !important;
+  top: -0.9rem !important;
+  /* background-color: #08314a!important; */
+}
+::ng-deep .ngx-slider .ngx-slider-pointer:after {
+  content: "" !important;
+  width: 0.7rem !important;
+  height: 0.7rem !important;
+  top: 0.7rem !important;
+  left: 0.7rem !important;
+}

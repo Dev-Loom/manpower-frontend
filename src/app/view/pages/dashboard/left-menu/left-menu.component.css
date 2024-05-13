@@ -1,0 +1,115 @@
+::ng-deep .mat-drawer-inner-container::-webkit-scrollbar {
+  width: 0; /* Remove scrollbar space */
+  display: none;
+}
+mat-sidenav-container {
+  height: 100vh;
+  overflow: auto;
+}
+mat-sidenav {
+  background: rgb(34, 41, 79);
+  color: #fff;
+  max-height: calc(100vh - 7rem);
+}
+.nav-expand {
+  width: 23rem;
+}
+mat-sidenav mat-nav-list .menu-item {
+  margin-left: 1rem;
+  color: #fff;
+}
+
+mat-sidenav mat-nav-list .chevron-button {
+  transition: 500ms ease-in-out;
+  transform: rotate(0deg);
+}
+
+mat-sidenav mat-nav-list .chevron-button.rotated {
+  transition: 500ms ease-in-out;
+  transform: rotate(180deg);
+}
+.left-menu .toggle .chevron-button {
+  font-size: 2rem;
+  height: 2rem;
+  width: 2rem;
+}
+.toggle {
+  background: rgb(55, 61, 95);
+  border-radius: 1rem;
+  padding: 0.3rem;
+}
+mat-icon {
+  color: #fff;
+}
+mat-list-item {
+  position: relative;
+  height: fit-content !important;
+  min-height: 56px;
+}
+mat-list-item .expand {
+  position: absolute;
+  right: 1rem;
+}
+.item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  color: #fff;
+}
+.item--expanded {
+  background: rgb(55, 61, 95);
+  border-radius: 1rem;
+  padding: 0.5rem;
+  display: flex;
+  justify-content: center;
+}
+.icon--collapsed {
+  height: 2rem !important;
+  width: 2rem !important;
+  font-size: 2rem !important;
+}
+.expanded-item {
+  background: rgba(55, 61, 95, 1) !important;
+  width: 100%;
+  padding: 1rem 0;
+  border-radius: 0.5rem;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+li {
+  list-style: none;
+  font-size: 1.2rem;
+  padding: 0.5rem 1rem;
+}
+li:hover {
+  background: rgb(62 69 111);
+}
+mat-sidenav mat-nav-list .expand.rotated-expand {
+  transform: rotate(180deg);
+  transition: 500ms ease-in-out;
+}
+mat-sidenav mat-nav-list .rotated-expand {
+  transition: 500ms ease-in-out;
+  transform: rotate(0deg);
+}
+.activeNav {
+  color: #ed9d9d !important;
+  /* border-bottom: 1px solid !important; */
+  border-radius: 0px;
+}
+.nav-footer {
+  background: rgba(55, 61, 95, 1);
+  position: fixed;
+  height: 7rem;
+  /* background: red; */
+  width: 23.1rem;
+  bottom: 0;
+}
+.resize-footer {
+  width: 7.1rem;
+}
+::ng-deep .mat-list-base .mat-list-item .mat-list-item-content {
+  flex-direction: column !important;
+}

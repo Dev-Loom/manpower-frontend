@@ -1,0 +1,13 @@
+::ng-deep .mat-drawer-inner-container::-webkit-scrollbar {
+  width: 0; /* Remove scrollbar space */
+  display: none;
+}
+mat-sidenav-container {
+  height: 100vh;
+  overflow: auto;
+}
+mat-sidenav {
+  background: rgb(34, 41, 79);
+  color: #fff;
+  max-height: calc(100vh - 7rem);
+}

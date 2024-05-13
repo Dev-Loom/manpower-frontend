@@ -1,0 +1,223 @@
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.container-fluid {
+  position: relative;
+}
+.add-person {
+  padding: 2rem;
+}
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  margin: 0;
+  padding: 1rem 1rem 1rem 2rem;
+  color: #fff;
+  background: #08314a;
+  border-bottom: 1px solid #f0f0f0;
+  border-radius: 1rem;
+}
+.header h1 {
+  margin: 0;
+}
+.close {
+  z-index: 1;
+  position: absolute;
+  right: 1rem;
+  top: 1.5rem;
+  cursor: pointer;
+}
+form {
+  margin-top: 2rem;
+  z-index: 0;
+  padding-left: 2rem;
+  overflow: auto;
+}
+mat-form-field {
+  flex: 1;
+  width: 33%;
+  padding: 0;
+  padding-right: 1rem;
+}
+.personal-details {
+  height: 45rem;
+}
+.image {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 3rem;
+  gap: 1rem;
+}
+.preview {
+  width: 100%;
+  object-fit: cover;
+  border-radius: 6px;
+  height: 12rem;
+  width: 12rem;
+}
+.btn--upload {
+  background: #f4f5f7;
+  border-radius: 1rem;
+  color: #5f6368;
+  font-family: "Inter", sans-serif;
+  border: none;
+  margin-left: 1rem;
+  height: 12rem;
+  width: 17rem;
+  background-size: cover;
+  position: relative;
+}
+
+.icon--upload {
+  font-size: 2rem;
+  height: 2rem;
+  width: 2rem;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  color: #2a7aff;
+}
+
+.action {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  position: sticky;
+  bottom: 0;
+  z-index: 1;
+}
+.btn {
+  width: 8rem;
+  font-size: 1.4rem;
+  color: #fff;
+}
+.btn--submit {
+  background: #08314a;
+}
+.btn--cancel {
+  background: rgb(252, 96, 96);
+}
+.add-child {
+  display: flex;
+  justify-content: flex-end;
+  padding: 1rem 0;
+}
+.btn--add {
+  width: fit-content;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  display: flex;
+  align-items: center;
+  background: #ba2525;
+  color: #fff;
+}
+.btn--add:hover {
+  background: #c74c48;
+}
+
+.add-person ::ng-deep .mat-dialog-container {
+  padding: 0 0 2rem 0;
+  border-radius: 1rem;
+}
+.radio {
+  gap: 2rem;
+  display: inline-flex;
+  margin-top: 1.5rem;
+}
+.child-form {
+  margin: 3rem 0 2rem 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  flex-wrap: wrap;
+}
+.child-form-container {
+  margin: 0;
+  overflow: auto;
+  max-height: 40.5rem;
+  padding-left: 0;
+}
+.child-form-container mat-form-field {
+  width: 100%;
+  padding: 0;
+}
+.icon--delete {
+  position: absolute;
+  right: 0;
+  top: 1.2rem;
+  cursor: pointer;
+}
+
+.add-child mat-form-field {
+  width: 100%;
+}
+.child-form
+  ::ng-deep
+  .mat-form-field-appearance-outline
+  .mat-form-field-wrapper,
+.add-child
+  ::ng-deep
+  .mat-form-field-appearance-outline
+  .mat-form-field-wrapper {
+  margin: 0;
+  padding: 0;
+}
+.fields {
+  position: relative;
+  gap: 3rem;
+}
+.col {
+  position: relative;
+}
+.mat-error {
+  color: #f44336;
+  font-size: 1.1rem;
+  height: 1rem;
+  margin-left: 1rem;
+  position: absolute;
+}
+.btn--add-course {
+  color: #4a5760;
+  width: 100%;
+}
+.btn--add-course mat-icon {
+  font-size: 2rem;
+  height: 2rem;
+  width: 2rem;
+  margin: 0;
+  margin-left: 1rem;
+}
+::ng-deep .mat-tab-group.mat-primary .mat-ink-bar,
+.mat-tab-nav-bar.mat-primary .mat-ink-bar {
+  background-color: #ba2525;
+}
+::ng-deep .mat-tab-label-active,
+::ng-deep .mat-tab-label:focus {
+  color: #ba2525;
+}
+
+::-webkit-scrollbar {
+  width: 0; /* Remove scrollbar space */
+  background: transparent; /* Optional: just make scrollbar invisible */
+}
+::ng-deep .mat-dialog-container {
+  border-radius: 1rem;
+  padding: 0;
+}
+
+form ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+  background: #f3f5f8;
+}

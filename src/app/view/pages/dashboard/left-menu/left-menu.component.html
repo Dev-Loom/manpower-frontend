@@ -1,0 +1,476 @@
+<div [ngClass]="{ 'nav-expand': isExpanded }" class="left-menu">
+  <mat-nav-list>
+    <mat-list-item>
+      <div
+        class="toggle"
+        [ngStyle]="{
+          position: isExpanded ? 'absolute' : 'fixed',
+          right: isExpanded ? '2rem' : 'unset',
+          left: isExpanded ? 'unset' : '4.5rem'
+        }"
+      >
+        <mat-icon
+          mat-list-icon
+          class="chevron-button"
+          [ngStyle]="{
+            transition: isExpanded ? '500ms ease-in-out' : '500ms ease-in-out',
+            transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)'
+          }"
+          [ngClass]="{ rotated: isExpanded }"
+          (click)="toggleExpand()"
+          >keyboard_double_arrow_right
+        </mat-icon>
+      </div>
+    </mat-list-item>
+
+    <mat-list-item
+      [matTooltip]="SIDE_NAV_ITEMS.HOME.name"
+      matTooltipPosition="after"
+      (click)="onNavigate(SIDE_NAV_ITEMS.HOME.route); setActiveNav(1)"
+    >
+      <div class="item" [ngClass]="{ 'item--expanded': !isExpanded }">
+        <mat-icon
+          mat-list-icon
+          [ngClass]="{
+            activeNav: activeNav == 1,
+            'icon--collapsed': !isExpanded
+          }"
+          >home</mat-icon
+        >
+        <span
+          *ngIf="isExpanded"
+          class="menu-item"
+          [ngClass]="{ activeNav: activeNav == 1 }"
+          >{{ SIDE_NAV_ITEMS.HOME.name }}</span
+        >
+      </div>
+    </mat-list-item>
+
+    <mat-list-item
+      [matTooltip]="SIDE_NAV_ITEMS.PERSON.name"
+      matTooltipPosition="after"
+      (click)="onNavItemSelect(2); toggleOnIconClick()"
+    >
+      <div class="item" [ngClass]="{ 'item--expanded': !isExpanded }">
+        <mat-icon
+          mat-list-icon
+          [ngClass]="{
+            activeNav: activeNav == 2,
+            'icon--collapsed': !isExpanded
+          }"
+          >person_add</mat-icon
+        >
+        <span
+          *ngIf="isExpanded"
+          class="menu-item"
+          [ngClass]="{
+            activeNav: activeNav == 2
+          }"
+          >{{ SIDE_NAV_ITEMS.PERSON.name }}</span
+        >
+        <mat-icon
+          class="expand"
+          mat-list-icon
+          [ngClass]="{
+            'rotated-expand': isPersonExpand,
+            activeNav: activeNav == 2
+          }"
+          >expand_more</mat-icon
+        >
+      </div>
+
+      <div class="expanded-item" *ngIf="isPersonExpand">
+        <li mat-flat-button (click)="onAddDetails(SIDE_NAV_ITEMS.PERSON)">
+          ADD PERSON
+        </li>
+        <li mat-flat-button (click)="onNavigate(SIDE_NAV_ITEMS.PERSON.route)">
+          VIEW PERSON
+        </li>
+      </div>
+    </mat-list-item>
+
+    <mat-list-item
+      [matTooltip]="SIDE_NAV_ITEMS.PROMOTION.name"
+      matTooltipPosition="after"
+      (click)="onNavItemSelect(3); toggleOnIconClick()"
+    >
+      <div class="item" [ngClass]="{ 'item--expanded': !isExpanded }">
+        <mat-icon
+          mat-list-icon
+          [ngClass]="{
+            activeNav: activeNav == 3,
+            'icon--collapsed': !isExpanded
+          }"
+          >trending_up</mat-icon
+        >
+        <span
+          *ngIf="isExpanded"
+          class="menu-item"
+          [ngClass]="{
+            activeNav: activeNav == 3
+          }"
+          >{{ SIDE_NAV_ITEMS.PROMOTION.name }}</span
+        >
+        <mat-icon
+          class="expand"
+          mat-list-icon
+          [ngClass]="{
+            'rotated-expand': isPromotionExpand,
+            activeNav: activeNav == 3
+          }"
+          >expand_more</mat-icon
+        >
+      </div>
+      <div class="expanded-item" *ngIf="isPromotionExpand">
+        <li mat-flat-button (click)="onAddDetails(SIDE_NAV_ITEMS.PROMOTION)">
+          ADD PROMOTION
+        </li>
+        <li mat-flat-button>VIEW PROMOTION</li>
+      </div>
+    </mat-list-item>
+
+    <mat-list-item
+      [matTooltip]="SIDE_NAV_ITEMS.COURSES.name"
+      matTooltipPosition="after"
+      (click)="onNavItemSelect(4); toggleOnIconClick()"
+    >
+      <div class="item" [ngClass]="{ 'item--expanded': !isExpanded }">
+        <mat-icon
+          mat-list-icon
+          [ngClass]="{
+            activeNav: activeNav == 4,
+            'icon--collapsed': !isExpanded
+          }"
+          >fact_check</mat-icon
+        >
+        <span
+          *ngIf="isExpanded"
+          class="menu-item"
+          [ngClass]="{ activeNav: activeNav == 4 }"
+          >{{ SIDE_NAV_ITEMS.COURSES.name }}</span
+        >
+        <mat-icon
+          class="expand"
+          mat-list-icon
+          [ngClass]="{
+            'rotated-expand': isCourseExpand,
+            activeNav: activeNav == 4
+          }"
+          >expand_more</mat-icon
+        >
+      </div>
+      <div class="expanded-item" *ngIf="isCourseExpand">
+        <li mat-flat-button (click)="onAddDetails(SIDE_NAV_ITEMS.COURSES)">
+          ADD COURSES
+        </li>
+        <li mat-flat-button [routerLink]="['course']">VIEW COURSES</li>
+      </div>
+    </mat-list-item>
+
+    <mat-list-item
+      [matTooltip]="SIDE_NAV_ITEMS.CADRES.name"
+      matTooltipPosition="after"
+      (click)="onNavItemSelect(5); toggleOnIconClick()"
+    >
+      <div class="item" [ngClass]="{ 'item--expanded': !isExpanded }">
+        <mat-icon
+          mat-list-icon
+          [ngClass]="{
+            activeNav: activeNav == 5,
+            'icon--collapsed': !isExpanded
+          }"
+          >assignment</mat-icon
+        >
+        <span
+          *ngIf="isExpanded"
+          class="menu-item"
+          [ngClass]="{ activeNav: activeNav == 5 }"
+          >{{ SIDE_NAV_ITEMS.CADRES.name }}</span
+        >
+        <mat-icon
+          class="expand"
+          mat-list-icon
+          [ngClass]="{
+            'rotated-expand': isCadreExpand,
+            activeNav: activeNav == 5
+          }"
+          >expand_more</mat-icon
+        >
+      </div>
+      <div class="expanded-item" *ngIf="isCadreExpand">
+        <li mat-flat-button (click)="onAddDetails(SIDE_NAV_ITEMS.CADRES)">
+          ADD CADRES
+        </li>
+        <li mat-flat-button [routerLink]="['cadre']">VIEW CADRES</li>
+      </div>
+    </mat-list-item>
+
+    <mat-list-item
+      [matTooltip]="SIDE_NAV_ITEMS.LEAVE.name"
+      matTooltipPosition="after"
+      (click)="onNavItemSelect(6); toggleOnIconClick()"
+    >
+      <div class="item" [ngClass]="{ 'item--expanded': !isExpanded }">
+        <mat-icon
+          mat-list-icon
+          [ngClass]="{
+            activeNav: activeNav == 6,
+            'icon--collapsed': !isExpanded
+          }"
+          >time_to_leave</mat-icon
+        >
+        <span
+          *ngIf="isExpanded"
+          class="menu-item"
+          [ngClass]="{ activeNav: activeNav == 6 }"
+          >{{ SIDE_NAV_ITEMS.LEAVE.name }}</span
+        >
+        <mat-icon
+          class="expand"
+          mat-list-icon
+          [ngClass]="{
+            'rotated-expand': isLeaveExpand,
+            activeNav: activeNav == 6
+          }"
+          >expand_more</mat-icon
+        >
+      </div>
+      <div class="expanded-item" *ngIf="isLeaveExpand">
+        <li mat-flat-button (click)="onAddDetails(SIDE_NAV_ITEMS.LEAVE)">
+          ADD LEAVE
+        </li>
+        <li mat-flat-button [routerLink]="['leave']">VIEW LEAVE</li>
+      </div>
+    </mat-list-item>
+
+    <mat-list-item
+      [matTooltip]="SIDE_NAV_ITEMS.ERE.name"
+      matTooltipPosition="after"
+      (click)="onNavItemSelect(7); toggleOnIconClick()"
+    >
+      <div class="item" [ngClass]="{ 'item--expanded': !isExpanded }">
+        <mat-icon
+          mat-list-icon
+          [ngClass]="{
+            activeNav: activeNav == 7,
+            'icon--collapsed': !isExpanded
+          }"
+          >transfer_within_a_station</mat-icon
+        >
+        <span
+          *ngIf="isExpanded"
+          class="menu-item"
+          [ngClass]="{ activeNav: activeNav == 7 }"
+          >{{ SIDE_NAV_ITEMS.ERE.name }}</span
+        >
+        <mat-icon
+          class="expand"
+          mat-list-icon
+          [ngClass]="{
+            'rotated-expand': isEreExpand,
+            activeNav: activeNav == 7
+          }"
+          >expand_more</mat-icon
+        >
+      </div>
+      <div class="expanded-item" *ngIf="isEreExpand">
+        <li mat-flat-button (click)="onAddDetails(SIDE_NAV_ITEMS.ERE)">
+          ADD ERE
+        </li>
+        <li mat-flat-button [routerLink]="['ere']">VIEW ERE</li>
+      </div>
+    </mat-list-item>
+
+    <mat-list-item
+      [matTooltip]="SIDE_NAV_ITEMS.ATT.name"
+      matTooltipPosition="after"
+      (click)="onNavItemSelect(8); toggleOnIconClick()"
+    >
+      <div class="item" [ngClass]="{ 'item--expanded': !isExpanded }">
+        <mat-icon
+          mat-list-icon
+          [ngClass]="{
+            activeNav: activeNav == 8,
+            'icon--collapsed': !isExpanded
+          }"
+          >rv_hookup</mat-icon
+        >
+        <span
+          *ngIf="isExpanded"
+          class="menu-item"
+          [ngClass]="{ activeNav: activeNav == 8 }"
+          >{{ SIDE_NAV_ITEMS.ATT.name }}</span
+        >
+        <mat-icon
+          class="expand"
+          mat-list-icon
+          [ngClass]="{
+            'rotated-expand': isAttExpand,
+            activeNav: activeNav == 8
+          }"
+          >expand_more</mat-icon
+        >
+      </div>
+      <div class="expanded-item" *ngIf="isAttExpand">
+        <li mat-flat-button (click)="onAddDetails(SIDE_NAV_ITEMS.ATT)">
+          ADD ATT
+        </li>
+        <li mat-flat-button [routerLink]="['att']">VIEW ATT</li>
+      </div>
+    </mat-list-item>
+
+    <mat-list-item
+      [matTooltip]="SIDE_NAV_ITEMS.PROFESSIONAL.name"
+      matTooltipPosition="after"
+      (click)="onNavItemSelect(9); toggleOnIconClick()"
+    >
+      <div class="item" [ngClass]="{ 'item--expanded': !isExpanded }">
+        <mat-icon
+          mat-list-icon
+          [ngClass]="{
+            activeNav: activeNav == 9,
+            'icon--collapsed': !isExpanded
+          }"
+          >directions_run</mat-icon
+        >
+        <span
+          *ngIf="isExpanded"
+          class="menu-item"
+          [ngClass]="{ activeNav: activeNav == 9 }"
+          >{{ SIDE_NAV_ITEMS.PROFESSIONAL.name }}</span
+        >
+        <mat-icon
+          class="expand"
+          mat-list-icon
+          [ngClass]="{
+            'rotated-expand': isProfessionalExpand,
+            activeNav: activeNav == 9
+          }"
+          >expand_more</mat-icon
+        >
+      </div>
+      <div class="expanded-item" *ngIf="isProfessionalExpand">
+        <li mat-flat-button (click)="onAddDetails(SIDE_NAV_ITEMS.BPET)">
+          ADD BPET
+        </li>
+        <li mat-flat-button (click)="onAddDetails(SIDE_NAV_ITEMS.PPT)">
+          ADD PPT
+        </li>
+        <li mat-flat-button (click)="onAddDetails(SIDE_NAV_ITEMS.FIRING)">
+          ADD FIRING
+        </li>
+      </div>
+    </mat-list-item>
+
+    <mat-list-item
+      [matTooltip]="SIDE_NAV_ITEMS.DISCP.name"
+      matTooltipPosition="after"
+      (click)="onNavItemSelect(10); toggleOnIconClick()"
+    >
+      <div class="item" [ngClass]="{ 'item--expanded': !isExpanded }">
+        <mat-icon
+          mat-list-icon
+          [ngClass]="{
+            activeNav: activeNav == 10,
+            'icon--collapsed': !isExpanded
+          }"
+          >boy</mat-icon
+        >
+        <span
+          *ngIf="isExpanded"
+          class="menu-item"
+          [ngClass]="{ activeNav: activeNav == 10 }"
+          >{{ SIDE_NAV_ITEMS.DISCP.name }}</span
+        >
+        <mat-icon
+          class="expand"
+          mat-list-icon
+          [ngClass]="{ 'rotated-expand': isDiscpExpand }"
+          >expand_more</mat-icon
+        >
+      </div>
+      <div class="expanded-item" *ngIf="isDiscpExpand">
+        <li mat-flat-button (click)="onAddDetails(SIDE_NAV_ITEMS.DISCP)">
+          ADD DISCP
+        </li>
+        <li mat-flat-button>VIEW DISCP</li>
+      </div>
+    </mat-list-item>
+
+    <mat-list-item
+      [matTooltip]="SIDE_NAV_ITEMS.MISC.name"
+      matTooltipPosition="after"
+      (click)="onNavItemSelect(11); toggleOnIconClick()"
+    >
+      <div class="item" [ngClass]="{ 'item--expanded': !isExpanded }">
+        <mat-icon
+          mat-list-icon
+          [ngClass]="{
+            activeNav: activeNav == 11,
+            'icon--collapsed': !isExpanded
+          }"
+          >miscellaneous_services</mat-icon
+        >
+        <span
+          *ngIf="isExpanded"
+          class="menu-item"
+          [ngClass]="{ activeNav: activeNav == 11 }"
+          >{{ SIDE_NAV_ITEMS.MISC.name }}</span
+        >
+        <mat-icon
+          class="expand"
+          mat-list-icon
+          [ngClass]="{
+            'rotated-expand': isMiscExpand,
+            activeNav: activeNav == 11
+          }"
+          >expand_more</mat-icon
+        >
+      </div>
+      <div class="expanded-item" *ngIf="isMiscExpand">
+        <li mat-flat-button>ADD MISC</li>
+        <li mat-flat-button>VIEW MISC</li>
+      </div>
+    </mat-list-item>
+
+    <mat-list-item
+      [matTooltip]="SIDE_NAV_ITEMS.WEAPON.name"
+      matTooltipPosition="after"
+      (click)="onNavItemSelect(12); toggleOnIconClick()"
+    >
+      <div class="item" [ngClass]="{ 'item--expanded': !isExpanded }">
+        <mat-icon
+          mat-list-icon
+          [ngClass]="{
+            activeNav: activeNav == 12,
+            'icon--collapsed': !isExpanded
+          }"
+          >nat</mat-icon
+        >
+        <span
+          *ngIf="isExpanded"
+          class="menu-item"
+          [ngClass]="{ activeNav: activeNav == 12 }"
+          >{{ SIDE_NAV_ITEMS.WEAPON.name }}</span
+        >
+        <mat-icon
+          class="expand"
+          mat-list-icon
+          [ngClass]="{
+            'rotated-expand': isWeaponExpand,
+            activeNav: activeNav == 12
+          }"
+          >expand_more</mat-icon
+        >
+      </div>
+      <div class="expanded-item" *ngIf="isWeaponExpand">
+        <li mat-flat-button (click)="onAddDetails(SIDE_NAV_ITEMS.WEAPON)">
+          ADD WEAPON
+        </li>
+        <li mat-flat-button>VIEW WEAPON</li>
+      </div>
+    </mat-list-item>
+    <mat-divider></mat-divider>
+  </mat-nav-list>
+  <div class="nav-footer" [ngClass]="{ 'resize-footer': !isExpanded }"></div>
+</div>

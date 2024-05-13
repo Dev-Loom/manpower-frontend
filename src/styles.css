@@ -1,0 +1,163 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~bootstrap/dist/css/bootstrap.min.css";
+
+html,
+body {
+  font-size: 10px;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-size: 10px;
+
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently*/
+}
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+:root {
+  --white: #fff;
+  --light-gray1: #f3f5f8;
+  --light-gray2: #f3f6f9;
+  --light-gray3: #f5f5f5;
+  --light-gray4: #fbfcfd;
+  --medium-gray: #919da8;
+  --dark-gray: #4a5760;
+  --blue: #36c;
+  --red: #ff4d4f;
+  --dark-red: #ba2525;
+  --bg-green: rgba(44, 171, 36, 0.11);
+  --bg-blue: rgba(0, 42, 255, 0.11);
+  --bg-cream: rgba(220, 142, 0, 0.11);
+  --bg-pink: rgba(246, 100, 45, 0.11);
+  --bg-purple: rgba(176, 56, 255, 0.11);
+  --border-color1: #e4e8eb;
+}
+
+.label {
+  font-weight: 600;
+  font-size: 1.4rem;
+  color: #4a5760;
+}
+
+mat-form-field {
+  font-size: 1.4rem;
+  /* padding: 0 1rem; */
+  border-radius: 0.5rem;
+  /* background-color: var(--light-gray); */
+}
+.view-container {
+  margin-top: 10rem;
+}
+.table-container {
+  border-radius: 2rem;
+  padding: 1rem;
+}
+.search-filter {
+  display: flex;
+  border-bottom: 1px solid #e4e8eb;
+  align-items: center;
+  background: #f3f6f9;
+  justify-content: flex-end;
+}
+.btn--filter {
+  width: 10rem;
+  height: 5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.icon--filter {
+  color: #919da8;
+}
+
+.table-container::ng-deep .mat-table thead {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: #f3f6f9;
+}
+.mat-table {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  height: 45rem;
+  position: relative;
+}
+
+/* .mat-row:nth-child(even) {
+  background-color: #e8e8e8;
+} */
+tr.mat-header-row,
+tr.mat-row {
+  display: flex;
+}
+.other-view th.mat-header-cell,
+.other-view td.mat-cell,
+.other-view td.mat-footer-cell {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  max-width: 14rem;
+}
+
+.mat-table thead {
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+th {
+  color: var(--dark-gray);
+  font-size: 1.6rem;
+}
+
+tr.mat-row:hover {
+  background: #f0f8fd !important;
+  transform: scale(1);
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+  z-index: 1;
+}
+
+::ng-deep .mat-table tfoot {
+  display: flex;
+  justify-content: center;
+  font-style: italic;
+}
+::ng-deep tr.mat-footer-row {
+  display: flex;
+  align-items: center;
+}
+::ng-deep .mat-badge-content {
+  background: #08314a;
+}
+/* .cdk-overlay-dark-backdrop {
+  background: transparent;
+} */
+/*::ng-deep.mat-form-field-appearance-outline .mat-form-field-flex {
+   background-color: var(--light-gray)
+}*/
+::ng-deep.mat-form-field-appearance-outline .mat-form-field-wrapper {
+  border: 1px solid red;
+}
+/* ::ng-deep.mat-form-field-wrapper {
+  padding-bottom: 1rem !important;
+} */

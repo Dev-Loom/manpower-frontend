@@ -1,0 +1,246 @@
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.container-fluid {
+  padding: 0;
+  margin-top: 9rem;
+}
+.spacer {
+  height: 3rem;
+  z-index: 3;
+  position: sticky;
+  top: 9rem;
+  background: #f2f2f2;
+}
+
+.profile-container {
+  height: fit-content;
+  margin-bottom: 5rem;
+  position: relative;
+  padding: 2rem;
+  padding-top: 0;
+}
+
+.header {
+  position: sticky;
+  font-weight: 600;
+  font-size: 2rem;
+  z-index: 2;
+  margin: 0;
+  padding: 1rem 1rem 1rem 2rem;
+  color: #fff;
+  background: #08314a;
+  border-bottom: 1px solid #f0f0f0;
+  border-radius: 1rem;
+  top: 12rem;
+}
+.header h1 {
+  margin: 0;
+}
+.body {
+  display: flex;
+  gap: 3rem;
+  height: 100%;
+  margin-top: 1rem;
+}
+.profile-overview {
+  width: 20%;
+}
+.overview-wrapper {
+  position: fixed;
+  height: fit-content;
+  border: 1px solid #e4e8eb;
+  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  padding: 3rem 0;
+  box-shadow: 2px 4px 10px 1px rgb(201 201 201 / 47%);
+  background: linear-gradient(45deg, #f3f5f8, #d1d1d1);
+  width: 24rem;
+  height: 50rem;
+}
+
+.image {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 3rem;
+}
+.btn--upload {
+  border-radius: 1rem;
+  height: 17rem;
+  width: 17rem;
+  object-fit: cover;
+  position: relative;
+  cursor: pointer;
+}
+.icon--upload {
+  font-size: 2rem;
+  height: 2rem;
+  width: 2rem;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  color: #2a7aff;
+  cursor: pointer;
+}
+
+.basic-profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.profile-details {
+  border: 1px solid #e4e8eb;
+  border-radius: 1rem;
+  box-shadow: 2px 4px 10px 1px rgb(201 201 201 / 47%);
+  width: 80%;
+  height: 50rem;
+  overflow: auto;
+}
+.profile-details::-webkit-scrollbar {
+  width: 0; /* Remove scrollbar space */
+  display: none;
+}
+
+form {
+  margin-top: 2rem;
+  z-index: 0;
+  padding-left: 2rem;
+  overflow: auto;
+}
+mat-form-field {
+  flex: 1;
+  width: 33%;
+  padding: 0;
+  padding-right: 1rem;
+}
+
+.action {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  position: sticky;
+  bottom: 0;
+  z-index: 1;
+  padding: 1.5rem 0;
+}
+.btn {
+  width: 8rem;
+  font-size: 1.4rem;
+  color: #fff;
+}
+.btn--submit {
+  background: #08314a;
+}
+.btn--cancel {
+  background: rgb(252, 96, 96);
+  color: #fff;
+}
+
+.radio {
+  gap: 2rem;
+  display: flex;
+  margin-top: 1rem;
+}
+.children form {
+  padding-bottom: 1rem;
+}
+.sub-heading {
+  padding-top: 1rem;
+}
+
+.add-child {
+  display: flex;
+  justify-content: flex-end;
+  padding: 1rem 0;
+  margin-right: 2rem !important;
+}
+.btn--add {
+  width: fit-content;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  display: flex;
+  align-items: center;
+  background: #ba2525;
+  color: #fff;
+}
+.btn--add:hover {
+  background: #c74c48;
+}
+
+.form-header {
+  padding: 0 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.children .action {
+  padding-top: 0;
+  padding-right: 2rem;
+  margin-bottom: 2rem;
+}
+
+.cadre-radio {
+  margin: 3.25px 0;
+  padding-bottom: 18.8px;
+  align-items: center;
+  display: inline-flex;
+  gap: 2rem;
+}
+::ng-deep .mat-slide-toggle.mat-checked .mat-slide-toggle-bar {
+  background: linear-gradient(45deg, #f3f5f8, #a89f9f) !important;
+}
+
+::ng-deep .mat-slide-toggle.mat-checked .mat-slide-toggle-thumb {
+  background-color: #08314a !important;
+  right: -3px !important;
+  position: absolute !important;
+}
+::ng-deep .profile-details .mat-tab-header {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: #ebebeb;
+}
+::ng-deep .mat-expansion-panel-body {
+  padding: 0 !important;
+}
+
+mat-slide-toggle ::ng-deep .mat-slide-toggle-bar {
+  width: 40px !important;
+  height: 20px !important;
+  border-radius: 10px;
+}
+
+mat-slide-toggle ::ng-deep .mat-slide-toggle-thumb-container {
+  width: 20px;
+  height: 20px;
+  top: 0;
+  left: 0;
+}
+
+mat-slide-toggle
+  ::ng-deep
+  .mat-slide-toggle.mat-checked
+  .mat-slide-toggle-thumb {
+  background-color: #ffd740;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+}
+form ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+  background: #f3f5f8;
+}

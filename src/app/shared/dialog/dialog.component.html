@@ -1,0 +1,434 @@
+<div class="container-fluid logout" *ngIf="data.type === 1">
+  <svg
+    viewBox="64 64 896 896"
+    focusable="false"
+    data-icon="exclamation-circle"
+    width="2.5rem"
+    height="2.5rem"
+    fill="#ffc107"
+    aria-hidden="true"
+  >
+    <path
+      d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z"
+    ></path>
+    <path
+      d="M464 688a48 48 0 1096 0 48 48 0 10-96 0zm24-112h48c4.4 0 8-3.6 8-8V296c0-4.4-3.6-8-8-8h-48c-4.4 0-8 3.6-8 8v272c0 4.4 3.6 8 8 8z"
+    ></path>
+  </svg>
+  <h1>{{ data.header }}</h1>
+  <p>{{ data.message }}</p>
+  <div class="actions">
+    <button mat-raised-button class="btn btn--cancel" matDialogClose="true">
+      Cancel
+    </button>
+    <button mat-raised-button class="btn btn--submit" (click)="onLogout()">
+      OK
+    </button>
+  </div>
+</div>
+
+<!-- FILTER PERSON VIEW -->
+<div class="container-fluid p-0" *ngIf="data.type === 2">
+  <div class="filter-container">
+    <div class="filter-header">
+      <h3 class="m-0">FILTER</h3>
+      <mat-icon matDialogClose="true">close</mat-icon>
+    </div>
+    <div class="filter-wrapper">
+      <div class="filter" *ngFor="let filter of data.filters; let i = index">
+        <ng-container *ngIf="filter.fieldType === data.fieldType.DROPDOWN">
+          <mat-label>{{ filter.label }}</mat-label>
+          <mat-form-field appearance="outline">
+            <mat-select
+              (selectionChange)="onSelection(filter.filterName, i)"
+              [(ngModel)]="filter.value"
+              [disabled]="filter.options.length === 0"
+              [multiple]="filter.filterNumber === 14 ? true : false"
+            >
+              <mat-option
+                *ngFor="let option of filter.options"
+                [value]="option"
+                [disabled]="!option"
+              >
+                {{ option }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </ng-container>
+        <ng-container *ngIf="filter.fieldType === data.fieldType.CHECKBOX">
+          <mat-checkbox class="checkbox" [(ngModel)]="filter.value">{{
+            filter.label
+          }}</mat-checkbox>
+        </ng-container>
+        <ng-container *ngIf="filter.fieldType === data.fieldType.SLIDER">
+          <mat-label>{{ filter.label }}</mat-label>
+          <ngx-slider
+            [(value)]="filter.lowValue"
+            [(highValue)]="filter.highValue"
+            [options]="filter.options"
+          ></ngx-slider>
+        </ng-container>
+      </div>
+    </div>
+    <div class="filter-action">
+      <button mat-flat-button class="btn--reset" (click)="onPersonClear()">
+        CLEAR
+      </button>
+      <button mat-flat-button class="btn--cancel" (click)="onCancel()">
+        CANCEL
+      </button>
+      <button
+        mat-flat-button
+        class="btn--submit"
+        (click)="onApplyPersonFilter()"
+      >
+        APPLY
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- FILTER LEAVE VIEW -->
+<div class="container-fluid p-0" *ngIf="data.type === 3">
+  <div class="filter-container">
+    <div class="filter-header">
+      <h3 class="m-0">FILTER</h3>
+      <mat-icon matDialogClose="true">close</mat-icon>
+    </div>
+    <div class="filter-wrapper">
+      <div class="filter" *ngFor="let filter of data.filters; let i = index">
+        <ng-container
+          *ngIf="
+            filter.fieldType === data.fieldType.DROPDOWN &&
+            filter.filterName !== 'month'
+          "
+        >
+          <mat-label>{{ filter.label }}</mat-label>
+          <mat-form-field appearance="outline">
+            <mat-select
+              (selectionChange)="onSelection(filter.filterName, i)"
+              [(ngModel)]="filter.value"
+              [disabled]="filter.options.length === 0"
+            >
+              <mat-option
+                *ngFor="let option of filter.options"
+                [value]="option"
+                [disabled]="!option"
+              >
+                {{ option }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </ng-container>
+        <ng-container *ngIf="filter.filterName === 'month'">
+          <mat-label>{{ filter.label }}</mat-label>
+          <mat-form-field appearance="outline">
+            <mat-select
+              (selectionChange)="onSelection(filter.filterName, i)"
+              [(ngModel)]="filter.value"
+              [disabled]="filter.options.length === 0"
+            >
+              <mat-option
+                *ngFor="let option of filter.options"
+                [value]="option.name"
+                [disabled]="!option"
+              >
+                {{ option.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </ng-container>
+        <ng-container *ngIf="filter.fieldType === data.fieldType.DATE">
+          <mat-label>{{ filter.label }}</mat-label>
+          <mat-form-field appearance="outline">
+            <input
+              matInput
+              [matDatepicker]="dp"
+              placeholder="Pick Year"
+              [formControl]="selectedYear"
+              [max]="maxYear"
+              [min]="minYear"
+              readonly
+            />
+            <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+            <mat-datepicker
+              #dp
+              startView="multi-year"
+              (yearSelected)="yearSelectedHandler($event, dp)"
+            >
+            </mat-datepicker>
+          </mat-form-field>
+        </ng-container>
+        <ng-container *ngIf="filter.fieldType === data.fieldType.CHECKBOX">
+          <mat-checkbox class="checkbox" [(ngModel)]="filter.value">{{
+            filter.label
+          }}</mat-checkbox>
+        </ng-container>
+      </div>
+    </div>
+    <div class="filter-action">
+      <button mat-flat-button class="btn--reset" (click)="onLeaveClear()">
+        CLEAR
+      </button>
+      <button mat-flat-button class="btn--cancel" (click)="onCancel()">
+        CANCEL
+      </button>
+      <button
+        mat-flat-button
+        class="btn--submit"
+        (click)="onApplyLeaveFilter()"
+      >
+        APPLY
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- FILTER COURSE VIEW -->
+<div class="container-fluid p-0" *ngIf="data.type === 4">
+  <div class="filter-container">
+    <div class="filter-header">
+      <h3 class="m-0">FILTER</h3>
+      <mat-icon matDialogClose="true">close</mat-icon>
+    </div>
+    <div class="filter-wrapper">
+      <div class="filter" *ngFor="let filter of data.filters; let i = index">
+        <ng-container *ngIf="filter.fieldType === data.fieldType.DROPDOWN">
+          <mat-label>{{ filter.label }}</mat-label>
+          <mat-form-field appearance="outline">
+            <mat-select
+              (selectionChange)="onSelection(filter.filterName, i)"
+              [(ngModel)]="filter.value"
+              [disabled]="filter.options.length === 0"
+              [multiple]="filter.filterName === 'grading' ? true : false"
+            >
+              <mat-option
+                *ngFor="let option of filter.options"
+                [value]="option"
+                [disabled]="!option"
+              >
+                {{ option }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </ng-container>
+        <ng-container *ngIf="filter.filterName === 'fromDate'">
+          <mat-label>{{ filter.label }}</mat-label>
+          <mat-form-field appearance="outline">
+            <input
+              matInput
+              [matDatepicker]="picker1"
+              readonly
+              [(ngModel)]="filter.value"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="picker1"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
+          </mat-form-field>
+        </ng-container>
+        <ng-container *ngIf="filter.filterName === 'toDate'">
+          <mat-label>{{ filter.label }}</mat-label>
+          <mat-form-field appearance="outline">
+            <input
+              matInput
+              [matDatepicker]="picker2"
+              readonly
+              [(ngModel)]="filter.value"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="picker2"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker2></mat-datepicker>
+          </mat-form-field>
+        </ng-container>
+        <ng-container *ngIf="filter.fieldType === data.fieldType.CHECKBOX">
+          <mat-checkbox class="checkbox" [(ngModel)]="filter.value">{{
+            filter.label
+          }}</mat-checkbox>
+        </ng-container>
+      </div>
+    </div>
+    <div class="filter-action">
+      <button mat-flat-button class="btn--reset" (click)="onCourseClear()">
+        CLEAR
+      </button>
+      <button mat-flat-button class="btn--cancel" (click)="onCancel()">
+        CANCEL
+      </button>
+      <button
+        mat-flat-button
+        class="btn--submit"
+        (click)="onApplyCourseFilter()"
+      >
+        APPLY
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- FILTER ERE VIEW -->
+<div class="container-fluid p-0" *ngIf="data.type === 6">
+  <div class="filter-container">
+    <div class="filter-header">
+      <h3 class="m-0">FILTER</h3>
+      <mat-icon matDialogClose="true">close</mat-icon>
+    </div>
+    <div class="filter-wrapper">
+      <div class="filter" *ngFor="let filter of data.filters; let i = index">
+        <ng-container *ngIf="filter.fieldType === data.fieldType.DROPDOWN">
+          <mat-label>{{ filter.label }}</mat-label>
+          <mat-form-field appearance="outline">
+            <mat-select
+              (selectionChange)="onSelection(filter.filterName, i)"
+              [(ngModel)]="filter.value"
+              [disabled]="filter.options.length === 0"
+            >
+              <mat-option
+                *ngFor="let option of filter.options"
+                [value]="option"
+                [disabled]="!option"
+              >
+                {{ option }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </ng-container>
+        <ng-container *ngIf="filter.fieldType === data.fieldType.CHECKBOX">
+          <mat-checkbox class="checkbox" [(ngModel)]="filter.value">{{
+            filter.label
+          }}</mat-checkbox>
+        </ng-container>
+      </div>
+    </div>
+    <div class="filter-action">
+      <button mat-flat-button class="btn--reset" (click)="onEreClear()">
+        CLEAR
+      </button>
+      <button mat-flat-button class="btn--cancel" (click)="onCancel()">
+        CANCEL
+      </button>
+      <button mat-flat-button class="btn--submit" (click)="onApplyEreFilter()">
+        APPLY
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- FILTER ATT VIEW -->
+<div class="container-fluid p-0" *ngIf="data.type === 7">
+  <div class="filter-container">
+    <div class="filter-header">
+      <h3 class="m-0">FILTER</h3>
+      <mat-icon matDialogClose="true">close</mat-icon>
+    </div>
+    <div class="filter-wrapper">
+      <div class="filter" *ngFor="let filter of data.filters; let i = index">
+        <ng-container *ngIf="filter.fieldType === data.fieldType.DROPDOWN">
+          <mat-label>{{ filter.label }}</mat-label>
+          <mat-form-field appearance="outline">
+            <mat-select
+              (selectionChange)="onSelection(filter.filterName, i)"
+              [(ngModel)]="filter.value"
+              [disabled]="filter.options.length === 0"
+            >
+              <mat-option
+                *ngFor="let option of filter.options"
+                [value]="option"
+                [disabled]="!option"
+              >
+                {{ option }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </ng-container>
+        <ng-container *ngIf="filter.fieldType === data.fieldType.INPUT">
+          <mat-label>{{ filter.label }}</mat-label>
+          <mat-form-field appearance="outline">
+            <input [type]="filter.type" [(ngModel)]="filter.value" matInput />
+          </mat-form-field>
+        </ng-container>
+        <ng-container *ngIf="filter.fieldType === data.fieldType.CHECKBOX">
+          <mat-checkbox class="checkbox" [(ngModel)]="filter.value">{{
+            filter.label
+          }}</mat-checkbox>
+        </ng-container>
+      </div>
+    </div>
+    <div class="filter-action">
+      <button mat-flat-button class="btn--reset" (click)="onAttClear()">
+        CLEAR
+      </button>
+      <button mat-flat-button class="btn--cancel" (click)="onCancel()">
+        CANCEL
+      </button>
+      <button mat-flat-button class="btn--submit" (click)="onApplyAttFilter()">
+        APPLY
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- FILTER CADRE VIEW -->
+<div class="container-fluid p-0" *ngIf="data.type === 5">
+  <div class="filter-container">
+    <div class="filter-header">
+      <h3 class="m-0">FILTER</h3>
+      <mat-icon matDialogClose="true">close</mat-icon>
+    </div>
+    <div class="filter-wrapper">
+      <div class="filter" *ngFor="let filter of data.filters; let i = index">
+        <ng-container *ngIf="filter.fieldType === data.fieldType.DROPDOWN">
+          <mat-label>{{ filter.label }}</mat-label>
+          <mat-form-field appearance="outline">
+            <mat-select
+              (selectionChange)="onSelection(filter.filterName, i)"
+              [(ngModel)]="filter.value"
+              [disabled]="filter.options.length === 0"
+            >
+              <mat-option
+                *ngFor="let option of filter.options"
+                [value]="option"
+                [disabled]="!option"
+              >
+                {{ option }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </ng-container>
+        <ng-container *ngIf="filter.fieldType === data.fieldType.RADIO">
+          <mat-radio-group
+            aria-label="RESULT"
+            class="radio-group"
+            [(ngModel)]="filter.value"
+          >
+            <mat-radio-button value="true">PASS</mat-radio-button>
+            <mat-radio-button value="false">FAIL</mat-radio-button>
+          </mat-radio-group>
+        </ng-container>
+        <ng-container *ngIf="filter.fieldType === data.fieldType.CHECKBOX">
+          <mat-checkbox class="checkbox" [(ngModel)]="filter.value">{{
+            filter.label
+          }}</mat-checkbox>
+        </ng-container>
+      </div>
+    </div>
+    <div class="filter-action">
+      <button mat-flat-button class="btn--reset" (click)="onCadresClear()">
+        CLEAR
+      </button>
+      <button mat-flat-button class="btn--cancel" (click)="onCancel()">
+        CANCEL
+      </button>
+      <button
+        mat-flat-button
+        class="btn--submit"
+        (click)="onApplyCadresFilter()"
+      >
+        APPLY
+      </button>
+    </div>
+  </div>
+</div>

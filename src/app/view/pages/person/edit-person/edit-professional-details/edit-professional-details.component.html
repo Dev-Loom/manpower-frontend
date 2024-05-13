@@ -1,0 +1,632 @@
+<div class="professional-details">
+  <div class="form-header">
+    <h2 class="sub-heading">Courses</h2>
+    <mat-slide-toggle (toggleChange)="onToggleEdit(5)">{{
+      enableCourseEdit ? "Disable Edit" : "Enable Edit"
+    }}</mat-slide-toggle>
+  </div>
+  <form [formGroup]="courseForm">
+    <div formArrayName="courseDetails">
+      <div
+        *ngFor="let x of courseFormArray().controls; let i = index"
+        [formGroupName]="i"
+      >
+        <ng-container>
+          <mat-form-field appearance="outline">
+            <mat-label class="label">COURSE</mat-label>
+            <mat-select formControlName="course" #matSelect>
+              <!-- (change)="convertToUppercase(4, 'course', i)" -->
+              <mat-option
+                *ngFor="let option of courseList"
+                [value]="option.name"
+                [disabled]="!option"
+              >
+                {{ option.name }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="x.get('course').hasError('required')">
+              This field is required
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label class="label">FROM</mat-label>
+            <input
+              matInput
+              [matDatepicker]="picker2"
+              formControlName="fromDate"
+              readonly
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="picker2"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker2></mat-datepicker>
+            <mat-error *ngIf="x.get('fromDate').hasError('required')">
+              This field is required
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label class="label">TO</mat-label>
+            <input
+              matInput
+              [matDatepicker]="picker3"
+              formControlName="toDate"
+              readonly
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="picker3"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker3></mat-datepicker>
+            <mat-error *ngIf="x.get('toDate').hasError('required')">
+              This field is required
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label class="label">GRADING</mat-label>
+            <mat-select formControlName="grading">
+              <mat-option
+                *ngFor="let option of gradingsList"
+                [value]="option"
+                [disabled]="!option"
+              >
+                {{ option }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="x.get('grading').hasError('required')">
+              This field is required
+            </mat-error>
+          </mat-form-field>
+
+          <div class="action">
+            <button
+              mat-raised-button
+              class="btn btn--submit"
+              [disabled]="x.invalid"
+              (click)="onEditCourse(i)"
+              *ngIf="enableCourseEdit"
+            >
+              Save
+            </button>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </form>
+  <mat-divider></mat-divider>
+  <div class="form-header">
+    <h2 class="sub-heading">EREs</h2>
+    <mat-slide-toggle (toggleChange)="onToggleEdit(6)">{{
+      enableEreEdit ? "Disable Edit" : "Enable Edit"
+    }}</mat-slide-toggle>
+  </div>
+  <form [formGroup]="ereForm">
+    <div formArrayName="ereDetails">
+      <div
+        *ngFor="let x of ereFormArray().controls; let i = index"
+        [formGroupName]="i"
+      >
+        <ng-container>
+          <mat-form-field appearance="outline">
+            <mat-label class="label">Unit</mat-label>
+            <mat-select formControlName="unit" #matSelect>
+              <!-- (change)="convertToUppercase(4, 'course', i)" -->
+              <mat-option
+                *ngFor="let option of unitList"
+                [value]="option.name"
+                [disabled]="!option"
+              >
+                {{ option.name }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="x.get('unit').hasError('required')">
+              This field is required
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label class="label">FROM</mat-label>
+            <input
+              matInput
+              [matDatepicker]="picker2"
+              formControlName="fromDate"
+              readonly
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="picker2"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker2></mat-datepicker>
+            <mat-error *ngIf="x.get('fromDate').hasError('required')">
+              This field is required
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label class="label">TO</mat-label>
+            <input
+              matInput
+              [matDatepicker]="picker3"
+              formControlName="toDate"
+              readonly
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="picker3"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker3></mat-datepicker>
+            <mat-error *ngIf="x.get('toDate').hasError('required')">
+              This field is required
+            </mat-error>
+          </mat-form-field>
+
+          <div class="action">
+            <button
+              mat-raised-button
+              class="btn btn--submit"
+              [disabled]="x.invalid"
+              (click)="onEditEre(i)"
+              *ngIf="enableEreEdit"
+            >
+              Save
+            </button>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </form>
+  <mat-divider></mat-divider>
+  <div class="form-header">
+    <h2 class="sub-heading">Cadres</h2>
+    <mat-slide-toggle (toggleChange)="onToggleEdit(7)">{{
+      enableCadresEdit ? "Disable Edit" : "Enable Edit"
+    }}</mat-slide-toggle>
+  </div>
+  <form [formGroup]="cadresForm">
+    <div formArrayName="cadresDetails">
+      <div
+        *ngFor="let x of cadresFormArray().controls; let i = index"
+        [formGroupName]="i"
+      >
+        <ng-container>
+          <mat-form-field appearance="outline">
+            <mat-label class="label">Unit</mat-label>
+            <mat-select formControlName="cadre" #matSelect>
+              <!-- (change)="convertToUppercase(4, 'course', i)" -->
+              <mat-option
+                *ngFor="let option of cadresList"
+                [value]="option.name"
+                [disabled]="!option"
+              >
+                {{ option.name }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="x.get('cadre').hasError('required')">
+              This field is required
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label class="label">FROM</mat-label>
+            <input
+              matInput
+              [matDatepicker]="picker2"
+              formControlName="fromDate"
+              readonly
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="picker2"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker2></mat-datepicker>
+            <mat-error *ngIf="x.get('fromDate').hasError('required')">
+              This field is required
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label class="label">TO</mat-label>
+            <input
+              matInput
+              [matDatepicker]="picker3"
+              formControlName="toDate"
+              readonly
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="picker3"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker3></mat-datepicker>
+            <mat-error *ngIf="x.get('toDate').hasError('required')">
+              This field is required
+            </mat-error>
+          </mat-form-field>
+          <mat-radio-group formControlName="result" class="cadre-radio">
+            <mat-radio-button [value]="true">PASS</mat-radio-button>
+            <mat-radio-button [value]="false">FAIL</mat-radio-button>
+          </mat-radio-group>
+
+          <div class="action">
+            <button
+              mat-raised-button
+              class="btn btn--submit"
+              [disabled]="x.invalid"
+              (click)="onEditCadre(i)"
+              *ngIf="enableCadresEdit"
+            >
+              Save
+            </button>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </form>
+  <mat-divider></mat-divider>
+  <div class="form-header">
+    <h2 class="sub-heading">BPET</h2>
+    <mat-slide-toggle (toggleChange)="onToggleEdit(8)">{{
+      enableBpetEdit ? "Disable Edit" : "Enable Edit"
+    }}</mat-slide-toggle>
+  </div>
+  <form [formGroup]="bpetForm">
+    <div formArrayName="bpetDetails">
+      <div
+        *ngFor="let x of bpetFormArray().controls; let i = index"
+        [formGroupName]="i"
+      >
+        <ng-container>
+          <mat-form-field appearance="outline">
+            <mat-label class="label">DATE</mat-label>
+            <input
+              matInput
+              [matDatepicker]="picker2"
+              formControlName="date"
+              readonly
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="picker2"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker2></mat-datepicker>
+            <mat-error *ngIf="x.get('date').hasError('required')">
+              This field is required
+            </mat-error>
+          </mat-form-field>
+
+          <mat-radio-group
+            aria-label="RESULT"
+            formControlName="result"
+            class="cadre-radio"
+          >
+            <mat-radio-button value="PASS">PASS</mat-radio-button>
+            <mat-radio-button value="FAIL">FAIL</mat-radio-button>
+          </mat-radio-group>
+
+          <div class="action">
+            <button
+              mat-raised-button
+              class="btn btn--submit"
+              [disabled]="x.invalid"
+              (click)="onEditBpet(i)"
+              *ngIf="enableBpetEdit"
+            >
+              Save
+            </button>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </form>
+  <mat-divider></mat-divider>
+  <div class="form-header">
+    <h2 class="sub-heading">PPT</h2>
+    <mat-slide-toggle (toggleChange)="onToggleEdit(9)">{{
+      enablePptEdit ? "Disable Edit" : "Enable Edit"
+    }}</mat-slide-toggle>
+  </div>
+  <form [formGroup]="pptForm">
+    <div formArrayName="pptDetails">
+      <div
+        *ngFor="let x of pptFormArray().controls; let i = index"
+        [formGroupName]="i"
+      >
+        <ng-container>
+          <mat-form-field appearance="outline">
+            <mat-label class="label">DATE</mat-label>
+            <input
+              matInput
+              [matDatepicker]="picker2"
+              formControlName="date"
+              readonly
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="picker2"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker2></mat-datepicker>
+            <mat-error *ngIf="x.get('date').hasError('required')">
+              This field is required
+            </mat-error>
+          </mat-form-field>
+
+          <mat-radio-group
+            aria-label="RESULT"
+            formControlName="result"
+            class="cadre-radio"
+          >
+            <mat-radio-button value="PASS">PASS</mat-radio-button>
+            <mat-radio-button value="FAIL">FAIL</mat-radio-button>
+          </mat-radio-group>
+
+          <div class="action">
+            <button
+              mat-raised-button
+              class="btn btn--submit"
+              [disabled]="x.invalid"
+              (click)="onEditPpt(i)"
+              *ngIf="enablePptEdit"
+            >
+              Save
+            </button>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </form>
+  <mat-divider></mat-divider>
+  <div class="form-header">
+    <h2 class="sub-heading">FIRINGS</h2>
+    <mat-slide-toggle (toggleChange)="onToggleEdit(10)">{{
+      enableFiringEdit ? "Disable Edit" : "Enable Edit"
+    }}</mat-slide-toggle>
+  </div>
+  <form [formGroup]="firingForm">
+    <div formArrayName="firingDetails">
+      <div
+        *ngFor="let x of firingFormArray().controls; let i = index"
+        [formGroupName]="i"
+      >
+        <ng-container>
+          <mat-form-field appearance="outline">
+            <mat-label class="label">DATE</mat-label>
+            <input
+              matInput
+              [matDatepicker]="picker2"
+              formControlName="date"
+              readonly
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="picker2"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker2></mat-datepicker>
+            <mat-error *ngIf="x.get('date').hasError('required')">
+              This field is required
+            </mat-error>
+          </mat-form-field>
+
+          <mat-radio-group
+            aria-label="RESULT"
+            formControlName="result"
+            class="cadre-radio"
+          >
+            <mat-radio-button value="PASS">PASS</mat-radio-button>
+            <mat-radio-button value="FAIL">FAIL</mat-radio-button>
+          </mat-radio-group>
+
+          <div class="action">
+            <button
+              mat-raised-button
+              class="btn btn--submit"
+              [disabled]="x.invalid"
+              (click)="onEditFiring(i)"
+              *ngIf="enableFiringEdit"
+            >
+              Save
+            </button>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </form>
+  <mat-divider></mat-divider>
+  <div class="form-header">
+    <h2 class="sub-heading">DISCP</h2>
+    <mat-slide-toggle (toggleChange)="onToggleEdit(11)">{{
+      enableDiscpEdit ? "Disable Edit" : "Enable Edit"
+    }}</mat-slide-toggle>
+  </div>
+  <form [formGroup]="discpForm">
+    <div formArrayName="discpDetails">
+      <div
+        *ngFor="let x of discpFormArray().controls; let i = index"
+        [formGroupName]="i"
+      >
+        <ng-container>
+          <mat-form-field appearance="outline">
+            <mat-label>PUNISHMENT</mat-label>
+            <input
+              type="text"
+              matInput
+              formControlName="punishment"
+              value="{{ discpFormArray().value[i]['punishment'] | uppercase }}"
+              (change)="convertToUppercase(11, 'punishment', i)"
+            />
+
+            <mat-error *ngIf="x.get('punishment').hasError('required')">
+              This field is required
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>CHARGE</mat-label>
+            <input
+              type="text"
+              matInput
+              formControlName="charge"
+              value="{{ discpFormArray().value[i]['charge'] | uppercase }}"
+              (change)="convertToUppercase(11, 'charge', i)"
+            />
+
+            <mat-error *ngIf="x.get('charge').hasError('required')">
+              This field is required
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label class="label">TYPE</mat-label>
+            <mat-select formControlName="type" #matSelect>
+              <mat-option
+                *ngFor="let option of discpTypes"
+                [value]="option"
+                [disabled]="!option"
+              >
+                {{ option }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="x.get('type').hasError('required')">
+              This field is required
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label class="label">DATE</mat-label>
+            <input
+              matInput
+              [matDatepicker]="picker2"
+              formControlName="date"
+              readonly
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="picker2"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker2></mat-datepicker>
+            <mat-error *ngIf="x.get('date').hasError('required')">
+              This field is required
+            </mat-error>
+          </mat-form-field>
+
+          <div class="action">
+            <button
+              mat-raised-button
+              class="btn btn--submit"
+              [disabled]="x.invalid"
+              (click)="onEditDiscp(i)"
+              *ngIf="enableDiscpEdit"
+            >
+              Save
+            </button>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </form>
+  <mat-divider></mat-divider>
+  <div class="form-header">
+    <h2 class="sub-heading">WEAPON</h2>
+    <mat-slide-toggle (toggleChange)="onToggleEdit(14)">{{
+      enableWeaponEdit ? "Disable Edit" : "Enable Edit"
+    }}</mat-slide-toggle>
+  </div>
+  <form [formGroup]="weaponForm">
+    <div formArrayName="weaponDetails">
+      <div
+        *ngFor="let x of weaponFormArray().controls; let i = index"
+        [formGroupName]="i"
+      >
+        <ng-container>
+          <mat-form-field appearance="outline">
+            <mat-label class="label">WEAPON</mat-label>
+            <input
+              type="text"
+              matInput
+              formControlName="weapon"
+              value="{{ weaponFormArray().value[i]['weapon'] | uppercase }}"
+              (change)="convertToUppercase(14, 'weapon', i)"
+            />
+            <mat-error *ngIf="x.get('weapon').hasError('required')">
+              This field is required
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label class="label">REGN NO</mat-label>
+            <input
+              type="text"
+              matInput
+              formControlName="regnNo"
+              value="{{ weaponFormArray().value[i]['regnNo'] | uppercase }}"
+              (change)="convertToUppercase(14, 'regnNo', i)"
+            />
+            <mat-error *ngIf="x.get('regnNo').hasError('required')">
+              This field is required
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label class="label">ISSUED DATE</mat-label>
+            <input
+              matInput
+              [matDatepicker]="picker1"
+              formControlName="issueDate"
+              readonly
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="picker1"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
+            <mat-error *ngIf="x.get('issueDate').hasError('required')">
+              This field is required
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label class="label">DEPOSITED DATE</mat-label>
+            <input
+              matInput
+              [matDatepicker]="picker2"
+              formControlName="depositedDate"
+              readonly
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="picker2"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker2></mat-datepicker>
+            <mat-error *ngIf="x.get('depositedDate').hasError('required')">
+              This field is required
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label class="label">REMARK</mat-label>
+            <input
+              type="text"
+              matInput
+              formControlName="remark"
+              value="{{ weaponFormArray().value[i]['remark'] | uppercase }}"
+              (change)="convertToUppercase(14, 'remark', i)"
+            />
+            <mat-error *ngIf="x.get('remark').hasError('required')">
+              This field is required
+            </mat-error>
+          </mat-form-field>
+
+          <div class="action">
+            <button
+              mat-raised-button
+              class="btn btn--submit"
+              [disabled]="x.invalid"
+              (click)="onEditWeapon(i)"
+              *ngIf="enableWeaponEdit"
+            >
+              Save
+            </button>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </form>
+</div>

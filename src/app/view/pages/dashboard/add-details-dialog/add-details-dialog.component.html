@@ -1,0 +1,1126 @@
+<!-- PROMOTION -->
+<div class="container-fluid add-details" *ngIf="data.role === 2">
+  <div class="header">
+    <h1>ADD {{ data.type }}</h1>
+    <mat-icon class="close" matDialogClose="true">close</mat-icon>
+  </div>
+
+  <div class="body">
+    <form [formGroup]="promotionForm" class="promotionForm">
+      <mat-form-field appearance="outline">
+        <mat-label class="label">ARMY NUMBER</mat-label>
+        <input
+          type="text"
+          matInput
+          formControlName="armyNo"
+          value="{{ promotionForm.value['armyNo'] | uppercase }}"
+          (change)="convertToUppercase('armyNo', 1)"
+        />
+        <mat-error
+          *ngIf="promotionForm.controls['armyNo'].hasError('required')"
+        >
+          This field is required
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label class="label">DATE OF PROMOTION</mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker1"
+          formControlName="date"
+          readonly
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="picker1"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+        <mat-error *ngIf="promotionForm.controls['date'].hasError('required')">
+          This field is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label class="label">PROMOTED TO</mat-label>
+        <mat-select
+          [(ngModel)]="promotionForm.value['toRank']"
+          formControlName="toRank"
+        >
+          <mat-option
+            *ngFor="let option of ranks"
+            [value]="option"
+            [disabled]="!option"
+          >
+            {{ option }}
+          </mat-option>
+        </mat-select>
+        <mat-error
+          *ngIf="promotionForm.controls['toRank'].hasError('required')"
+        >
+          This field is required
+        </mat-error>
+      </mat-form-field>
+    </form>
+  </div>
+
+  <div class="action">
+    <button
+      mat-raised-button
+      type="button"
+      class="btn btn--cancel"
+      matDialogClose="true"
+    >
+      Cancel
+    </button>
+    <button
+      mat-raised-button
+      class="btn btn--submit"
+      [disabled]="promotionForm.invalid"
+      (click)="onSubmitPromotion()"
+    >
+      Save
+    </button>
+  </div>
+</div>
+
+<!-- COURSE -->
+<div class="container-fluid add-details add-course" *ngIf="data.role === 3">
+  <div class="header">
+    <h1>ADD {{ data.type }}</h1>
+    <mat-icon class="close" matDialogClose="true">close</mat-icon>
+  </div>
+
+  <div class="body">
+    <form [formGroup]="courseForm" class="promotionForm">
+      <mat-form-field appearance="outline">
+        <mat-label class="label">ARMY NUMBER</mat-label>
+        <input
+          type="text"
+          matInput
+          formControlName="armyNo"
+          value="{{ courseForm.value['armyNo'] | uppercase }}"
+          (change)="convertToUppercase('armyNo', 2)"
+        />
+        <mat-error *ngIf="courseForm.controls['armyNo'].hasError('required')">
+          This field is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label class="label">FROM</mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker2"
+          formControlName="fromDate"
+          readonly
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="picker2"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker2></mat-datepicker>
+        <mat-error *ngIf="courseForm.controls['fromDate'].hasError('required')">
+          This field is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label class="label">TO</mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker3"
+          formControlName="toDate"
+          readonly
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="picker3"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker3></mat-datepicker>
+        <mat-error *ngIf="courseForm.controls['toDate'].hasError('required')">
+          This field is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label class="label">GRADING</mat-label>
+        <mat-select
+          [(ngModel)]="courseForm.value['grading']"
+          formControlName="grading"
+        >
+          <mat-option
+            *ngFor="let option of gradings"
+            [value]="option"
+            [disabled]="!option"
+          >
+            {{ option }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="courseForm.controls['grading'].hasError('required')">
+          This field is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" *ngIf="!isAddCourse">
+        <mat-label class="label">COURSE</mat-label>
+        <mat-select
+          [(ngModel)]="courseForm.value['course']"
+          formControlName="course"
+          #matSelect
+        >
+          <div>
+            <mat-option
+              *ngFor="let option of courseList"
+              [value]="option.name"
+              [disabled]="!option"
+            >
+              {{ option.name }}
+            </mat-option>
+            <mat-divider></mat-divider>
+          </div>
+          <footer>
+            <button
+              mat-flat-button
+              class="btn--add-course"
+              type="button"
+              (click)="addCourseList()"
+            >
+              <span>ADD COURSE</span> <mat-icon>add</mat-icon>
+            </button>
+            <!-- <mat-option class="add-course-option"><span>ADD COURSE</span> <mat-icon>add</mat-icon></mat-option> -->
+          </footer>
+        </mat-select>
+        <mat-error *ngIf="courseForm.controls['course'].hasError('required')">
+          This field is required
+        </mat-error>
+      </mat-form-field>
+
+      <!-- ADD COURSE AND LOCATION DYNAMICALLY IF NOT PRESENT -->
+      <mat-form-field appearance="outline" *ngIf="isAddCourse">
+        <mat-label class="label">COURSE</mat-label>
+        <input
+          type="text"
+          matInput
+          formControlName="course"
+          value="{{ courseForm.value['course'] | uppercase }}"
+          (change)="convertToUppercase('course', 2)"
+        />
+        <mat-error *ngIf="courseForm.controls['course'].hasError('required')">
+          This field is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" *ngIf="isAddCourse">
+        <mat-label class="label">LOCATION</mat-label>
+        <input
+          type="text"
+          matInput
+          formControlName="location"
+          value="{{ courseForm.value['location'] | uppercase }}"
+          (change)="convertToUppercase('location', 2)"
+        />
+        <mat-error *ngIf="courseForm.controls['location'].hasError('required')">
+          This field is required
+        </mat-error>
+      </mat-form-field>
+    </form>
+  </div>
+
+  <div class="action">
+    <button
+      mat-raised-button
+      type="button"
+      class="btn btn--cancel"
+      matDialogClose="true"
+    >
+      Cancel
+    </button>
+    <button
+      mat-raised-button
+      class="btn btn--submit"
+      [disabled]="courseForm.invalid"
+      (click)="onSubmitCourse()"
+    >
+      Save
+    </button>
+  </div>
+</div>
+
+<!-- CADRES -->
+<div class="container-fluid add-details add-cadres" *ngIf="data.role === 4">
+  <div class="header">
+    <h1>ADD {{ data.type }}</h1>
+    <mat-icon class="close" matDialogClose="true">close</mat-icon>
+  </div>
+
+  <div class="body">
+    <form [formGroup]="cadresForm" class="promotionForm">
+      <mat-form-field appearance="outline">
+        <mat-label class="label">ARMY NUMBER</mat-label>
+        <input
+          type="text"
+          matInput
+          formControlName="armyNo"
+          value="{{ cadresForm.value['armyNo'] | uppercase }}"
+          (change)="convertToUppercase('armyNo', 3)"
+        />
+        <mat-error *ngIf="cadresForm.controls['armyNo'].hasError('required')">
+          This field is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label class="label">FROM</mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker2"
+          formControlName="fromDate"
+          readonly
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="picker2"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker2></mat-datepicker>
+        <mat-error *ngIf="cadresForm.controls['fromDate'].hasError('required')">
+          This field is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label class="label">TO</mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker3"
+          formControlName="toDate"
+          readonly
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="picker3"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker3></mat-datepicker>
+        <mat-error *ngIf="cadresForm.controls['toDate'].hasError('required')">
+          This field is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" *ngIf="!isAddCadre">
+        <mat-label class="label">CADRES</mat-label>
+        <mat-select
+          [(ngModel)]="cadresForm.value['cadre']"
+          formControlName="cadre"
+          #matSelect
+        >
+          <div>
+            <mat-option
+              *ngFor="let option of cadresList"
+              [value]="option.name"
+              [disabled]="!option"
+            >
+              {{ option.name }}
+            </mat-option>
+            <mat-divider></mat-divider>
+          </div>
+          <footer>
+            <button
+              mat-flat-button
+              class="btn--add-course"
+              type="button"
+              (click)="addCadresList()"
+            >
+              <span>ADD COURSE</span> <mat-icon>add</mat-icon>
+            </button>
+          </footer>
+        </mat-select>
+        <mat-error *ngIf="cadresForm.controls['cadre'].hasError('required')">
+          This field is required
+        </mat-error>
+      </mat-form-field>
+
+      <!-- ADD CADRE AND LOCATION DYNAMICALLY IF NOT PRESENT -->
+      <mat-form-field appearance="outline" *ngIf="isAddCadre">
+        <mat-label class="label">CADRES</mat-label>
+        <input
+          type="text"
+          matInput
+          formControlName="cadre"
+          value="{{ cadresForm.value['cadre'] | uppercase }}"
+          (change)="convertToUppercase('cadre', 3)"
+        />
+        <mat-error *ngIf="cadresForm.controls['cadre'].hasError('required')">
+          This field is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" *ngIf="isAddCadre">
+        <mat-label class="label">LOCATION</mat-label>
+        <input
+          type="text"
+          matInput
+          formControlName="location"
+          value="{{ cadresForm.value['location'] | uppercase }}"
+          (change)="convertToUppercase('location', 3)"
+        />
+        <mat-error *ngIf="cadresForm.controls['location'].hasError('required')">
+          This field is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-radio-group
+        aria-label="RESULT"
+        formControlName="result"
+        class="cadre-radio"
+      >
+        <mat-radio-button [value]="true">PASS</mat-radio-button>
+        <mat-radio-button [value]="false">FAIL</mat-radio-button>
+      </mat-radio-group>
+    </form>
+  </div>
+
+  <div class="action">
+    <button
+      mat-raised-button
+      type="button"
+      class="btn btn--cancel"
+      matDialogClose="true"
+    >
+      Cancel
+    </button>
+    <button
+      mat-raised-button
+      class="btn btn--submit"
+      [disabled]="cadresForm.invalid"
+      (click)="onSubmitCadres()"
+    >
+      Save
+    </button>
+  </div>
+</div>
+
+<!-- LEAVE -->
+<div class="container-fluid add-details add-leave" *ngIf="data.role === 5">
+  <div class="header">
+    <h1>ADD {{ data.type }}</h1>
+    <mat-icon class="close" matDialogClose="true">close</mat-icon>
+  </div>
+
+  <div class="body">
+    <form [formGroup]="leaveForm" class="promotionForm">
+      <mat-form-field appearance="outline">
+        <mat-label class="label">ARMY NUMBER</mat-label>
+        <input
+          type="text"
+          matInput
+          formControlName="armyNo"
+          value="{{ leaveForm.value['armyNo'] | uppercase }}"
+          (change)="convertToUppercase('armyNo', 4)"
+        />
+        <mat-error *ngIf="leaveForm.controls['armyNo'].hasError('required')">
+          This field is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label class="label">FROM</mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker2"
+          formControlName="fromDate"
+          readonly
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="picker2"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker2></mat-datepicker>
+        <mat-error *ngIf="leaveForm.controls['fromDate'].hasError('required')">
+          This field is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label class="label">TO</mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker3"
+          formControlName="toDate"
+          readonly
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="picker3"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker3></mat-datepicker>
+        <mat-error *ngIf="leaveForm.controls['toDate'].hasError('required')">
+          This field is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-radio-group
+        aria-label="TYPE"
+        formControlName="type"
+        class="type-radio-container"
+      >
+        <mat-label class="label">TYPE</mat-label>
+        <div class="radio-wrapper">
+          <mat-radio-button value="AL">AL</mat-radio-button>
+          <mat-radio-button value="CL">CL</mat-radio-button>
+          <mat-radio-button value="SL">SL</mat-radio-button>
+          <mat-radio-button value="FURLOUGH">FURLOUGH</mat-radio-button>
+        </div>
+      </mat-radio-group>
+    </form>
+  </div>
+
+  <div class="action">
+    <button
+      mat-raised-button
+      type="button"
+      class="btn btn--cancel"
+      matDialogClose="true"
+    >
+      Cancel
+    </button>
+    <button
+      mat-raised-button
+      class="btn btn--submit"
+      [disabled]="leaveForm.invalid"
+      (click)="onSubmitLeave()"
+    >
+      Save
+    </button>
+  </div>
+</div>
+
+<!-- ERE -->
+<div class="container-fluid add-details add-ere" *ngIf="data.role === 6">
+  <div class="header">
+    <h1>ADD {{ data.type }}</h1>
+    <mat-icon class="close" matDialogClose="true">close</mat-icon>
+  </div>
+
+  <div class="body">
+    <form [formGroup]="ereForm" class="promotionForm">
+      <mat-form-field appearance="outline">
+        <mat-label class="label">ARMY NUMBER</mat-label>
+        <input
+          type="text"
+          matInput
+          formControlName="armyNo"
+          value="{{ ereForm.value['armyNo'] | uppercase }}"
+          (change)="convertToUppercase('armyNo', 5)"
+        />
+        <mat-error *ngIf="ereForm.controls['armyNo'].hasError('required')">
+          This field is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label class="label">FROM</mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker2"
+          formControlName="fromDate"
+          readonly
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="picker2"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker2></mat-datepicker>
+        <mat-error *ngIf="ereForm.controls['fromDate'].hasError('required')">
+          This field is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label class="label">TO</mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker3"
+          formControlName="toDate"
+          readonly
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="picker3"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker3></mat-datepicker>
+        <mat-error *ngIf="ereForm.controls['toDate'].hasError('required')">
+          This field is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" *ngIf="!isAddERE">
+        <mat-label class="label">UNIT</mat-label>
+        <mat-select
+          [(ngModel)]="ereForm.value['unit']"
+          formControlName="unit"
+          #matSelect
+        >
+          <div>
+            <mat-option
+              *ngFor="let option of ereList"
+              [value]="option.name"
+              [disabled]="!option"
+            >
+              {{ option.name }}
+            </mat-option>
+            <mat-divider></mat-divider>
+          </div>
+          <footer>
+            <button
+              mat-flat-button
+              class="btn--add-course"
+              type="button"
+              (click)="addEREList()"
+            >
+              <span>ADD ERE</span> <mat-icon>add</mat-icon>
+            </button>
+          </footer>
+        </mat-select>
+        <mat-error *ngIf="ereForm.controls['unit'].hasError('required')">
+          This field is required
+        </mat-error>
+      </mat-form-field>
+
+      <!-- ADD ERE AND LOCATION DYNAMICALLY IF NOT PRESENT -->
+      <mat-form-field appearance="outline" *ngIf="isAddERE">
+        <mat-label class="label">UNIT</mat-label>
+        <input
+          type="text"
+          matInput
+          formControlName="unit"
+          value="{{ ereForm.value['unit'] | uppercase }}"
+          (change)="convertToUppercase('unit', 5)"
+        />
+        <mat-error *ngIf="ereForm.controls['unit'].hasError('required')">
+          This field is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" *ngIf="isAddERE">
+        <mat-label class="label">LOCATION</mat-label>
+        <input
+          type="text"
+          matInput
+          formControlName="location"
+          value="{{ ereForm.value['location'] | uppercase }}"
+          (change)="convertToUppercase('location', 5)"
+        />
+        <mat-error *ngIf="ereForm.controls['location'].hasError('required')">
+          This field is required
+        </mat-error>
+      </mat-form-field>
+    </form>
+  </div>
+
+  <div class="action">
+    <button
+      mat-raised-button
+      type="button"
+      class="btn btn--cancel"
+      matDialogClose="true"
+    >
+      Cancel
+    </button>
+    <button
+      mat-raised-button
+      class="btn btn--submit"
+      [disabled]="ereForm.invalid"
+      (click)="onSubmitERE()"
+    >
+      Save
+    </button>
+  </div>
+</div>
+
+<!-- ATT -->
+<div class="container-fluid add-details add-att" *ngIf="data.role === 7">
+  <div class="header">
+    <h1>ADD {{ data.type }}</h1>
+    <mat-icon class="close" matDialogClose="true">close</mat-icon>
+  </div>
+
+  <div class="body">
+    <form [formGroup]="attForm" class="promotionForm">
+      <mat-form-field appearance="outline">
+        <mat-label class="label">ARMY NUMBER</mat-label>
+        <input
+          type="text"
+          matInput
+          formControlName="armyNo"
+          value="{{ attForm.value['armyNo'] | uppercase }}"
+          (change)="convertToUppercase('armyNo', 6)"
+        />
+        <mat-error *ngIf="attForm.controls['armyNo'].hasError('required')">
+          This field is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label class="label">FROM</mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker2"
+          formControlName="fromDate"
+          readonly
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="picker2"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker2></mat-datepicker>
+        <mat-error *ngIf="attForm.controls['fromDate'].hasError('required')">
+          This field is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label class="label">TO</mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker3"
+          formControlName="toDate"
+          readonly
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="picker3"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker3></mat-datepicker>
+        <mat-error *ngIf="attForm.controls['toDate'].hasError('required')">
+          This field is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label class="label">EMPLOYMENT</mat-label>
+        <input
+          type="text"
+          matInput
+          formControlName="employment"
+          value="{{ attForm.value['employment'] | uppercase }}"
+          (change)="convertToUppercase('employment', 6)"
+        />
+        <mat-error *ngIf="attForm.controls['employment'].hasError('required')">
+          This field is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label class="label">AUTH</mat-label>
+        <input
+          type="text"
+          matInput
+          formControlName="auth"
+          value="{{ attForm.value['auth'] | uppercase }}"
+          (change)="convertToUppercase('auth', 6)"
+        />
+        <mat-error *ngIf="attForm.controls['auth'].hasError('required')">
+          This field is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" *ngIf="!isAddUnit">
+        <mat-label class="label">UNIT</mat-label>
+        <mat-select
+          [(ngModel)]="attForm.value['unit']"
+          formControlName="unit"
+          #matSelect
+        >
+          <div>
+            <mat-option
+              *ngFor="let option of unitList"
+              [value]="option.name"
+              [disabled]="!option"
+            >
+              {{ option.name }}
+            </mat-option>
+            <mat-divider></mat-divider>
+          </div>
+          <footer>
+            <button
+              mat-flat-button
+              class="btn--add-course"
+              type="button"
+              (click)="addUnitList()"
+            >
+              <span>ADD UNIT</span> <mat-icon>add</mat-icon>
+            </button>
+          </footer>
+        </mat-select>
+        <mat-error *ngIf="attForm.controls['unit'].hasError('required')">
+          This field is required
+        </mat-error>
+      </mat-form-field>
+
+      <!-- ADD ATT AND LOCATION DYNAMICALLY IF NOT PRESENT -->
+      <mat-form-field appearance="outline" *ngIf="isAddUnit">
+        <mat-label class="label">UNIT</mat-label>
+        <input
+          type="text"
+          matInput
+          formControlName="unit"
+          value="{{ attForm.value['unit'] | uppercase }}"
+          (change)="convertToUppercase('unit', 6)"
+        />
+        <mat-error *ngIf="attForm.controls['unit'].hasError('required')">
+          This field is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" *ngIf="isAddUnit">
+        <mat-label class="label">LOCATION</mat-label>
+        <input
+          type="text"
+          matInput
+          formControlName="location"
+          value="{{ attForm.value['location'] | uppercase }}"
+          (change)="convertToUppercase('location', 6)"
+        />
+        <mat-error *ngIf="attForm.controls['location'].hasError('required')">
+          This field is required
+        </mat-error>
+      </mat-form-field>
+    </form>
+  </div>
+
+  <div class="action">
+    <button
+      mat-raised-button
+      type="button"
+      class="btn btn--cancel"
+      matDialogClose="true"
+    >
+      Cancel
+    </button>
+    <button
+      mat-raised-button
+      class="btn btn--submit"
+      [disabled]="attForm.invalid"
+      (click)="onSubmitATT()"
+    >
+      Save
+    </button>
+  </div>
+</div>
+
+<!-- PROFESSIONAL -->
+<div
+  class="container-fluid add-details add-bpet"
+  *ngIf="data.role === 8 || data.role === 9 || data.role === 10"
+>
+  <div class="header">
+    <h1>ADD {{ data.type }}</h1>
+    <mat-icon class="close" matDialogClose="true">close</mat-icon>
+  </div>
+
+  <div class="body">
+    <form [formGroup]="professionalForm" class="promotionForm">
+      <mat-form-field appearance="outline">
+        <mat-label class="label">ARMY NUMBER</mat-label>
+        <input
+          type="text"
+          matInput
+          formControlName="armyNo"
+          value="{{ professionalForm.value['armyNo'] | uppercase }}"
+          (change)="convertToUppercase('armyNo', 7)"
+        />
+        <mat-error
+          *ngIf="professionalForm.controls['armyNo'].hasError('required')"
+        >
+          This field is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label class="label">DATE</mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker2"
+          formControlName="date"
+          readonly
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="picker2"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker2></mat-datepicker>
+        <mat-error
+          *ngIf="professionalForm.controls['date'].hasError('required')"
+        >
+          This field is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-radio-group
+        aria-label="RESULT"
+        formControlName="result"
+        class="cadre-radio"
+      >
+        <mat-radio-button value="PASS">PASS</mat-radio-button>
+        <mat-radio-button value="FAIL">FAIL</mat-radio-button>
+      </mat-radio-group>
+    </form>
+  </div>
+
+  <div class="action">
+    <button
+      mat-raised-button
+      type="button"
+      class="btn btn--cancel"
+      matDialogClose="true"
+    >
+      Cancel
+    </button>
+    <button
+      mat-raised-button
+      class="btn btn--submit"
+      [disabled]="professionalForm.invalid"
+      (click)="onSubmitBPET()"
+    >
+      Save
+    </button>
+  </div>
+</div>
+
+<!-- DISCP -->
+<div class="container-fluid add-details add-discp" *ngIf="data.role === 11">
+  <div class="header">
+    <h1>ADD {{ data.type }}</h1>
+    <mat-icon class="close" matDialogClose="true">close</mat-icon>
+  </div>
+
+  <div class="body">
+    <form [formGroup]="discpForm" class="promotionForm">
+      <mat-form-field appearance="outline">
+        <mat-label class="label">ARMY NUMBER</mat-label>
+        <input
+          type="text"
+          matInput
+          formControlName="armyNo"
+          value="{{ discpForm.value['armyNo'] | uppercase }}"
+          (change)="convertToUppercase('armyNo', 8)"
+        />
+        <mat-error *ngIf="discpForm.controls['armyNo'].hasError('required')">
+          This field is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label class="label">DATE</mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker2"
+          formControlName="date"
+          readonly
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="picker2"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker2></mat-datepicker>
+        <mat-error *ngIf="discpForm.controls['date'].hasError('required')">
+          This field is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label class="label">CHARGE</mat-label>
+        <input
+          type="text"
+          matInput
+          formControlName="charge"
+          value="{{ discpForm.value['charge'] | uppercase }}"
+          (change)="convertToUppercase('charge', 8)"
+        />
+        <mat-error *ngIf="discpForm.controls['charge'].hasError('required')">
+          This field is required
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label class="label">PUNISHMENT</mat-label>
+        <input
+          type="text"
+          matInput
+          formControlName="punishment"
+          value="{{ discpForm.value['punishment'] | uppercase }}"
+          (change)="convertToUppercase('punishment', 8)"
+        />
+        <mat-error
+          *ngIf="discpForm.controls['punishment'].hasError('required')"
+        >
+          This field is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label class="label">TYPE</mat-label>
+        <mat-select
+          [(ngModel)]="discpForm.value['type']"
+          formControlName="type"
+          #matSelect
+        >
+          <mat-option
+            *ngFor="let option of dicpTypes"
+            [value]="option"
+            [disabled]="!option"
+          >
+            {{ option }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="discpForm.controls['type'].hasError('required')">
+          This field is required
+        </mat-error>
+      </mat-form-field>
+    </form>
+  </div>
+
+  <div class="action">
+    <button
+      mat-raised-button
+      type="button"
+      class="btn btn--cancel"
+      matDialogClose="true"
+    >
+      Cancel
+    </button>
+    <button
+      mat-raised-button
+      class="btn btn--submit"
+      [disabled]="discpForm.invalid"
+      (click)="onSubmitDISCP()"
+    >
+      Save
+    </button>
+  </div>
+</div>
+
+<!-- WEAPON -->
+<div class="container-fluid add-details add-discp" *ngIf="data.role === 12">
+  <div class="header">
+    <h1>ADD {{ data.type }}</h1>
+    <mat-icon class="close" matDialogClose="true">close</mat-icon>
+  </div>
+
+  <div class="body">
+    <form [formGroup]="weaponForm" class="promotionForm">
+      <mat-form-field appearance="outline">
+        <mat-label class="label">ARMY NUMBER</mat-label>
+        <input
+          type="text"
+          matInput
+          formControlName="armyNo"
+          value="{{ weaponForm.value['armyNo'] | uppercase }}"
+          (change)="convertToUppercase('armyNo', 9)"
+        />
+        <mat-error *ngIf="weaponForm.controls['armyNo'].hasError('required')">
+          This field is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label class="label">WEAPON</mat-label>
+        <input
+          type="text"
+          matInput
+          formControlName="weapon"
+          value="{{ weaponForm.value['weapon'] | uppercase }}"
+          (change)="convertToUppercase('weapon', 9)"
+        />
+        <mat-error *ngIf="weaponForm.controls['weapon'].hasError('required')">
+          This field is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label class="label">REGN NO</mat-label>
+        <input
+          type="text"
+          matInput
+          formControlName="regnNo"
+          value="{{ weaponForm.value['regnNo'] | uppercase }}"
+          (change)="convertToUppercase('regnNo', 9)"
+        />
+        <mat-error *ngIf="weaponForm.controls['regnNo'].hasError('required')">
+          This field is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label class="label">ISSUED DATE</mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker1"
+          formControlName="issueDate"
+          readonly
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="picker1"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+        <mat-error
+          *ngIf="weaponForm.controls['issueDate'].hasError('required')"
+        >
+          This field is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label class="label">DEPOSITED DATE</mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker2"
+          formControlName="depositedDate"
+          readonly
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="picker2"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker2></mat-datepicker>
+        <mat-error
+          *ngIf="weaponForm.controls['depositedDate'].hasError('required')"
+        >
+          This field is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label class="label">REMARK</mat-label>
+        <input
+          type="text"
+          matInput
+          formControlName="remark"
+          value="{{ weaponForm.value['remark'] | uppercase }}"
+          (change)="convertToUppercase('remark', 9)"
+        />
+        <mat-error *ngIf="weaponForm.controls['remark'].hasError('required')">
+          This field is required
+        </mat-error>
+      </mat-form-field>
+    </form>
+  </div>
+
+  <div class="action">
+    <button
+      mat-raised-button
+      type="button"
+      class="btn btn--cancel"
+      matDialogClose="true"
+    >
+      Cancel
+    </button>
+    <button
+      mat-raised-button
+      class="btn btn--submit"
+      [disabled]="weaponForm.invalid"
+      (click)="onSubmitWeaopn()"
+    >
+      Save
+    </button>
+  </div>
+</div>

@@ -1,0 +1,402 @@
+<div class="container-fluid add-person">
+  <div class="header">
+    <h1>Add Soldier</h1>
+    <mat-icon class="close" matDialogClose="true">close</mat-icon>
+  </div>
+
+  <mat-tab-group
+    [selectedIndex]="selectedTabIndex"
+    (selectedTabChange)="onTabChange($event)"
+  >
+    <mat-tab label="PERSONAL DETAILS">
+      <form [formGroup]="personDetailsForm" class="personal-details">
+        <div class="image">
+          <button
+            class="btn--upload"
+            mat-stroked-button
+            matSuffix
+            type="button"
+            (click)="soldierImgPick.click()"
+            [ngStyle]="{
+              'background-image': isSoldierImgUploaded
+                ? 'url(' + selectedSoldierImg + ') '
+                : 'url(assets/images/image.png) '
+            }"
+          >
+            <mat-icon class="icon--upload">camera_alt</mat-icon>
+          </button>
+          <input
+            #soldierImgPick
+            style="display: none"
+            type="file"
+            class="mt-3"
+            name="file"
+            id="file"
+            (change)="onSelectImg($event)"
+          />
+        </div>
+        <ng-container *ngFor="let field of formFields; let i = index">
+          <mat-form-field
+            appearance="outline"
+            *ngIf="field.formType === fieldType.INPUT"
+          >
+            <mat-label class="label">{{ field.label }}</mat-label>
+            <input
+              type="{{ field.type }}"
+              matInput
+              placeholder="{{ field.formControlName }}"
+              [formControlName]="field.formControlName"
+              value="{{
+                personDetailsForm.value[field.formControlName] | uppercase
+              }}"
+              (change)="convertToUppercase(field.formControlName, 1)"
+              maxlength="{{ field.formControlName === 'pan' ? '10' : '' }}"
+            />
+            <mat-error
+              *ngIf="
+                personDetailsForm.controls[field.formControlName].hasError(
+                  'required'
+                )
+              "
+            >
+              This field is required
+            </mat-error>
+            <mat-error
+              *ngIf="
+                personDetailsForm.controls[field.formControlName].hasError(
+                  'pattern'
+                )
+              "
+            >
+              Please Enter Valid Input
+            </mat-error>
+          </mat-form-field>
+
+          <!-- Dropdown -->
+          <mat-form-field
+            appearance="outline"
+            *ngIf="
+              field.formType === fieldType.DROPDOWN &&
+              field.formControlName !== 'appt'
+            "
+          >
+            <mat-label class="label">{{ field.label }}</mat-label>
+            <mat-select
+              [(ngModel)]="personDetailsForm.value[field.formControlName]"
+              [formControlName]="field.formControlName"
+              (selectionChange)="onSelection(field.label)"
+            >
+              <mat-option
+                *ngFor="let option of field.options"
+                [value]="option"
+                [disabled]="!option"
+              >
+                {{ option }}
+              </mat-option>
+            </mat-select>
+            <mat-error
+              *ngIf="
+                personDetailsForm.controls[field.formControlName].hasError(
+                  'required'
+                )
+              "
+            >
+              This field is required
+            </mat-error>
+          </mat-form-field>
+
+          <!-- ONLY FOR APPT -->
+          <mat-form-field
+            appearance="outline"
+            *ngIf="field.formControlName === 'appt' && !isAddAppt"
+          >
+            <mat-label class="label">{{ field.label }}</mat-label>
+            <mat-select
+              [(ngModel)]="personDetailsForm.value['appt']"
+              formControlName="appt"
+              #matSelect
+            >
+              <div>
+                <mat-option
+                  *ngFor="let option of apptList"
+                  [value]="option"
+                  [disabled]="!option"
+                >
+                  {{ option }}
+                </mat-option>
+                <mat-divider></mat-divider>
+              </div>
+              <footer>
+                <button
+                  mat-flat-button
+                  class="btn--add-course"
+                  type="button"
+                  (click)="isAddAppt = true"
+                >
+                  <span>ADD APPT</span> <mat-icon>add</mat-icon>
+                </button>
+              </footer>
+            </mat-select>
+          </mat-form-field>
+
+          <!-- ADD APPT DYNAMICALLY IF NOT PRESENT -->
+          <mat-form-field
+            appearance="outline"
+            *ngIf="field.formControlName === 'appt' && isAddAppt"
+          >
+            <mat-label class="label">{{ field.label }}</mat-label>
+            <input
+              type="text"
+              matInput
+              formControlName="appt"
+              value="{{ personDetailsForm.value['appt'] | uppercase }}"
+            />
+          </mat-form-field>
+
+          <!-- Date -->
+          <mat-form-field
+            appearance="outline"
+            *ngIf="field.formType === fieldType.DATE"
+          >
+            <mat-label class="label">{{ field.label }}</mat-label>
+            <input
+              matInput
+              [matDatepicker]="picker1"
+              [formControlName]="field.formControlName"
+              readonly
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="picker1"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
+            <mat-error
+              *ngIf="
+                personDetailsForm.controls[field.formControlName].hasError(
+                  'required'
+                )
+              "
+            >
+              This field is required
+            </mat-error>
+          </mat-form-field>
+        </ng-container>
+      </form>
+      <div class="action">
+        <button
+          mat-raised-button
+          type="button"
+          class="btn btn--cancel"
+          matDialogClose="true"
+        >
+          Cancel
+        </button>
+        <button mat-raised-button class="btn btn--submit" (click)="onSubmit()">
+          Save
+        </button>
+      </div>
+    </mat-tab>
+    <mat-tab label="ADDRESS" [disabled]="selectedTabIndex < 1">
+      <form [formGroup]="addressForm">
+        <ng-container *ngFor="let field of AddressFormFields; let i = index">
+          <!-- DROPDOWN -->
+          <mat-form-field
+            appearance="outline"
+            *ngIf="field.formType === fieldType.DROPDOWN"
+          >
+            <mat-label class="label">{{ field.label }}</mat-label>
+            <mat-select
+              [(ngModel)]="addressForm.value[field.formControlName]"
+              [formControlName]="field.formControlName"
+            >
+              <mat-option
+                *ngFor="let option of field.options"
+                [value]="option"
+                [disabled]="!option"
+              >
+                {{ option }}
+              </mat-option>
+            </mat-select>
+            <mat-error
+              *ngIf="
+                addressForm.controls[field.formControlName].hasError('required')
+              "
+            >
+              This field is required
+            </mat-error>
+          </mat-form-field>
+
+          <!-- INPUT -->
+          <mat-form-field
+            appearance="outline"
+            *ngIf="field.formType === fieldType.INPUT"
+          >
+            <mat-label>{{ field.label }}</mat-label>
+            <input
+              type="{{ field.type }}"
+              matInput
+              formControlName="{{ field.formControlName }}"
+              value="{{ addressForm.value[field.formControlName] | uppercase }}"
+              (change)="convertToUppercase(field.formControlName, 2)"
+            />
+            <mat-error
+              *ngIf="
+                addressForm.controls[field.formControlName].hasError('required')
+              "
+            >
+              This field is required
+            </mat-error>
+          </mat-form-field>
+        </ng-container>
+      </form>
+      <div class="action">
+        <button
+          mat-raised-button
+          type="button"
+          class="btn btn--cancel"
+          matDialogClose="true"
+        >
+          Cancel
+        </button>
+        <button
+          mat-raised-button
+          class="btn btn--submit"
+          [disabled]="addressForm.invalid"
+          (click)="onAddAddress()"
+        >
+          Save
+        </button>
+      </div>
+    </mat-tab>
+    <mat-tab label="CHILDREN" [disabled]="selectedTabIndex < 2">
+      <div class="add-child" *ngIf="hasWife">
+        <button mat-raised-button class="btn--add" (click)="onAddChildForm()">
+          <mat-icon>add</mat-icon> ADD CHILD
+        </button>
+      </div>
+
+      <form
+        [formGroup]="multipleChildrenDetailsForm"
+        class="child-form-container"
+        *ngIf="hasWife"
+      >
+        <div formArrayName="childrenDetails">
+          <div
+            *ngFor="let x of multipleChildrenDetails().controls; let i = index"
+            [formGroupName]="i"
+            class="child-form"
+          >
+            <div class="row m-0 fields">
+              <div class="col p-0">
+                <mat-form-field appearance="outline">
+                  <mat-label>NAME</mat-label>
+                  <input
+                    type="text"
+                    matInput
+                    formControlName="name"
+                    value="{{
+                      multipleChildrenDetails().value[i]['name'] | uppercase
+                    }}"
+                    (change)="convertToUppercase('name', 3, i)"
+                  />
+                </mat-form-field>
+                <mat-hint
+                  class="mat-error"
+                  *ngIf="
+                    x.get('name').hasError('required') && x.get('name').touched
+                  "
+                >
+                  This field is required
+                </mat-hint>
+              </div>
+              <div class="col p-0">
+                <mat-form-field appearance="outline">
+                  <mat-label>SCHOOL</mat-label>
+                  <input
+                    type="text"
+                    matInput
+                    formControlName="school"
+                    value="{{
+                      multipleChildrenDetails().value[i]['school'] | uppercase
+                    }}"
+                    (change)="convertToUppercase('school', 3, i)"
+                  />
+                </mat-form-field>
+                <mat-hint
+                  class="mat-error"
+                  *ngIf="
+                    x.get('school').hasError('required') &&
+                    x.get('school').touched
+                  "
+                >
+                  This field is required
+                </mat-hint>
+              </div>
+            </div>
+
+            <div class="row m-0 fields">
+              <div class="col p-0">
+                <mat-form-field appearance="outline">
+                  <mat-label class="label">DOB</mat-label>
+                  <input
+                    matInput
+                    [matDatepicker]="picker1"
+                    formControlName="dob"
+                    readonly
+                  />
+                  <mat-datepicker-toggle
+                    matSuffix
+                    [for]="picker1"
+                  ></mat-datepicker-toggle>
+                  <mat-datepicker #picker1></mat-datepicker>
+                </mat-form-field>
+                <mat-hint
+                  class="mat-error"
+                  *ngIf="
+                    x.get('dob').hasError('required') && x.get('dob').touched
+                  "
+                >
+                  This field is required
+                </mat-hint>
+              </div>
+              <div class="col p-0">
+                <mat-radio-group
+                  aria-label="Gender"
+                  formControlName="child"
+                  class="radio"
+                >
+                  <mat-radio-button [value]="true">MALE</mat-radio-button>
+                  <mat-radio-button [value]="false">FEMALE</mat-radio-button>
+                </mat-radio-group>
+                <mat-icon
+                  class="icon--delete"
+                  *ngIf="multipleChildrenDetails().controls.length > 1 && i > 0"
+                  (click)="onRemoveChildForm(i)"
+                  >delete_outline</mat-icon
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+      <div class="action" *ngIf="hasWife">
+        <button
+          mat-raised-button
+          type="button"
+          class="btn btn--cancel"
+          matDialogClose="true"
+        >
+          Cancel
+        </button>
+        <button
+          mat-raised-button
+          class="btn btn--submit"
+          [disabled]="this.multipleChildrenDetails().invalid"
+          (click)="onAddChildren()"
+        >
+          Save
+        </button>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>

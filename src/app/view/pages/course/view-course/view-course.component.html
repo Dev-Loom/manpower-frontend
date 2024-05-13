@@ -1,0 +1,146 @@
+<div class="container view-container">
+  <div class="table-container other-view">
+    <div class="mat-elevation-z8">
+      <div class="search-filter">
+        <button
+          mat-flat-button
+          class="btn--filter"
+          (click)="openFilterDialog()"
+        >
+          <mat-icon
+            class="icon--filter"
+            [matBadgeHidden]="filteredSelected === 0"
+            [matBadge]="filteredSelected"
+            >filter_alt</mat-icon
+          >
+        </button>
+      </div>
+      <table
+        mat-table
+        [dataSource]="dataSource1"
+        matSort
+        (matSortChange)="sortColumn($event)"
+      >
+        <ng-container matColumnDef="sNo">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            <span>S NO</span>
+          </th>
+          <td mat-cell *matCellDef="let element; let i = index">
+            {{ i + 1 }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="armyNo">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            <span>ARMY NO</span>
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.Per.armyNo }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="rank">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            <span>RANK</span>
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.Per.rank }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            <span>NAME</span>
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.Per.name }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="coy">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            <span>COY/PL</span>
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.Per.coy }} / {{ element.Per.pl }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="course">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            <span>COURSE</span>
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.course }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="location">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            <span>LOCATION</span>
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.location }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="from">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            <span>FROM</span>
+          </th>
+          <td mat-cell *matCellDef="let element">
+            <span *ngIf="element.fromDate">{{
+              element.fromDate | date: "d-MMM-y"
+            }}</span>
+            <span *ngIf="!element.fromDate">N/A</span>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="to">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            <span>TO</span>
+          </th>
+          <td mat-cell *matCellDef="let element">
+            <span *ngIf="element.toDate">{{
+              element.toDate | date: "d-MMM-y"
+            }}</span>
+            <span *ngIf="!element.toDate">N/A</span>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="grading">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            <span>GRADING</span>
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.grading }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="loading">
+          <mat-footer-cell *matFooterCellDef> Loading Data... </mat-footer-cell>
+        </ng-container>
+        <ng-container matColumnDef="noData">
+          <mat-footer-cell *matFooterCellDef> No Data Found </mat-footer-cell>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr
+          mat-row
+          *matRowDef="let row; columns: displayedColumns"
+          [routerLink]="['/person/' + row.persId]"
+        ></tr>
+        <tr
+          mat-footer-row
+          *matFooterRowDef="['loading']"
+          [hidden]="!isLoading"
+        ></tr>
+        <tr
+          mat-footer-row
+          *matFooterRowDef="['noData']"
+          [hidden]="dataSource1.data.length != 0"
+        ></tr>
+      </table>
+      <mat-paginator
+        [pageSizeOptions]="[100, 5, 10, 20]"
+        (page)="onPageChange()"
+        showFirstLastButtons
+      >
+      </mat-paginator>
+    </div>
+  </div>
+</div>

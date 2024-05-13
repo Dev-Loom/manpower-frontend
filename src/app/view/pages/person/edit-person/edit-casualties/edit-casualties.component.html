@@ -1,0 +1,149 @@
+<div class="casualties">
+  <div class="form-header">
+    <h2 class="sub-heading">Leave History</h2>
+    <mat-slide-toggle (toggleChange)="onToggleEdit(12)">{{
+      enableLeaveEdit ? "Disable Edit" : "Enable Edit"
+    }}</mat-slide-toggle>
+  </div>
+  <form [formGroup]="leaveForm" class="promotionForm">
+    <div formArrayName="leaveDetails">
+      <div
+        *ngFor="let x of leaveFormArray().controls; let i = index"
+        [formGroupName]="i"
+      >
+        <ng-container>
+          <mat-form-field appearance="outline">
+            <mat-label class="label">FROM</mat-label>
+            <input
+              matInput
+              [matDatepicker]="picker2"
+              formControlName="fromDate"
+              readonly
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="picker2"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker2></mat-datepicker>
+            <mat-error *ngIf="x.get('fromDate').hasError('required')">
+              This field is required
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label class="label">TO</mat-label>
+            <input
+              matInput
+              [matDatepicker]="picker3"
+              formControlName="toDate"
+              readonly
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="picker3"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker3></mat-datepicker>
+            <mat-error *ngIf="x.get('toDate').hasError('required')">
+              This field is required
+            </mat-error>
+          </mat-form-field>
+
+          <mat-radio-group
+            aria-label="TYPE"
+            formControlName="type"
+            class="type-radio-container"
+          >
+            <mat-label class="label">TYPE</mat-label>
+            <div class="radio-wrapper">
+              <mat-radio-button value="AL">AL</mat-radio-button>
+              <mat-radio-button value="CL">CL</mat-radio-button>
+              <mat-radio-button value="SL">SL</mat-radio-button>
+              <mat-radio-button value="FURLOUGH">FURLOUGH</mat-radio-button>
+            </div>
+          </mat-radio-group>
+
+          <div class="action">
+            <button
+              mat-raised-button
+              class="btn btn--submit"
+              [disabled]="x.invalid"
+              (click)="onEditLeave(i)"
+              *ngIf="enableLeaveEdit"
+            >
+              Save
+            </button>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </form>
+  <mat-divider></mat-divider>
+  <div class="form-header">
+    <h2 class="sub-heading">AFPP DETAILS</h2>
+    <mat-slide-toggle (toggleChange)="onToggleEdit(13)">{{
+      enableLeaveEdit ? "Disable Edit" : "Enable Edit"
+    }}</mat-slide-toggle>
+  </div>
+  <form [formGroup]="afppForm" class="promotionForm">
+    <div formArrayName="afppDetails">
+      <div
+        *ngFor="let x of afppFormArray().controls; let i = index"
+        [formGroupName]="i"
+      >
+        <ng-container>
+          <mat-form-field appearance="outline">
+            <mat-label class="label">OPENING BALANCE</mat-label>
+            <input type="number" matInput formControlName="openingBal" />
+            <mat-error *ngIf="x.get('openingBal').hasError('required')">
+              This field is required
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label class="label">CLOSING BALANCE</mat-label>
+            <input type="number" matInput formControlName="closingBal" />
+            <mat-error *ngIf="x.get('closingBal').hasError('required')">
+              This field is required
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label class="label">AMOUNT</mat-label>
+            <input type="number" matInput formControlName="amount" />
+            <mat-error *ngIf="x.get('amount').hasError('required')">
+              This field is required
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label class="label">DATE</mat-label>
+            <input
+              matInput
+              [matDatepicker]="picker2"
+              formControlName="date"
+              readonly
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="picker2"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker2></mat-datepicker>
+            <mat-error *ngIf="x.get('date').hasError('required')">
+              This field is required
+            </mat-error>
+          </mat-form-field>
+
+          <div class="action">
+            <button
+              mat-raised-button
+              class="btn btn--submit"
+              [disabled]="x.invalid"
+              (click)="onEditAfpp(i)"
+              *ngIf="enableAfppEdit"
+            >
+              Save
+            </button>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,160 @@
+<div class="container-fluid">
+  <div class="search-container">
+    <div class="search">
+      <div class="search-input">
+        <input
+          type="text"
+          matInput
+          placeholder="SEARCH"
+          [(ngModel)]="armyNo"
+          (keyup)="search.next(armyNo)"
+        />
+        <mat-icon
+          class="icon--cancel"
+          *ngIf="searchResults.length"
+          (click)="onClearSearch()"
+          >cancel</mat-icon
+        >
+      </div>
+      <div class="search-result" *ngIf="searchResults.length">
+        <div class="result">
+          <div
+            class="searched-items"
+            *ngFor="let result of searchResults"
+            [routerLink]="['/person/' + result.id]"
+            (click)="onPersonSelection()"
+          >
+            <img *ngIf="result.photo" src="{{ result.photo }}" alt="" />
+            <img *ngIf="!result.photo" [src]="BASE_IMAGE_URL" alt="" />
+            <div class="person-details">
+              <span class="armyNo">{{ result.armyNo }}</span>
+              <span>{{ result.rank }}&nbsp;{{ result.name }}</span>
+              <span>{{ result.coy }}/{{ result.pl }} </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-container">
+    <mat-card class="card">
+      <div class="card__header">
+        <h1>Leave</h1>
+      </div>
+      <div class="year-filter">
+        <mat-form-field appearance="outline">
+          <mat-select
+            [(ngModel)]="selectedYear"
+            (selectionChange)="populateLeaveSeries()"
+          >
+            <mat-option
+              *ngFor="let year of years"
+              [value]="year"
+              [disabled]="!year"
+            >
+              {{ year }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div id="chart" *ngIf="chartOptions.series.length > 0">
+        <apx-chart
+          [series]="chartOptions.series"
+          [chart]="chartOptions.chart"
+          [legend]="chartOptions.legend"
+          [dataLabels]="chartOptions.dataLabels"
+          [colors]="chartOptions.colors"
+          [plotOptions]="chartOptions.plotOptions"
+          [yaxis]="chartOptions.yaxis"
+        ></apx-chart>
+      </div>
+    </mat-card>
+    <mat-card class="card">
+      <div class="card__header">
+        <h1>Parade State</h1>
+      </div>
+      <div id="pie-chart" *ngIf="pieChartOptions.series">
+        <apx-chart
+          [series]="pieChartOptions.series"
+          [chart]="pieChartOptions.chart"
+          [labels]="pieChartOptions.labels"
+          [tooltip]="pieChartOptions.tooltip"
+          [responsive]="pieChartOptions.responsive"
+        ></apx-chart>
+      </div>
+    </mat-card>
+  </div>
+  <div class="birthday-container">
+    <mat-card class="card">
+      <div class="card__header align-item-center">
+        <h1 class="d-flex mb-0">Birthdays</h1>
+      </div>
+      <div class="birthday birthday--today">
+        <h1 class="d-flex mb-0">Today</h1>
+        <div class="birthday__wrapper">
+          <div
+            class="birthday__card-wrapper"
+            *ngFor="let x of birthDays.todays"
+          >
+            <div class="birthday__card">
+              <img [src]="BASE_IMAGE_URL" alt="" />
+              <div class="birthday__details">
+                <span>{{ x.armyNo }}</span>
+                <span>{{ x.rank }}</span>
+                <span
+                  class="text-overflow"
+                  [matTooltip]="x.name.length > 15 ? x.name : ''"
+                  >{{ x.name }}</span
+                >
+                <span>{{ x.coy }}/{{ x.pl }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="birthday">
+        <h1 class="d-flex mb-0">Next 7 Days</h1>
+        <div class="birthday__wrapper">
+          <div
+            class="birthday__card-wrapper"
+            *ngFor="let x of birthDays.nextWeek"
+          >
+            <div class="birthday__date">
+              <span>{{ x.dob }}</span>
+            </div>
+            <div class="birthday__card">
+              <img [src]="BASE_IMAGE_URL" alt="" />
+              <div class="birthday__details">
+                <span>{{ x.armyNo }}</span>
+                <span>{{ x.rank }}</span>
+                <span
+                  class="text-overflow"
+                  [matTooltip]="x.name.length > 17 ? x.name : ''"
+                  >{{ x.name }}</span
+                >
+                <span>{{ x.coy }}/{{ x.pl }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+  <!-- <div class="company-summary-container">
+    <mat-card class="card">
+      <div class="card__header">
+        <h1>Sick Report</h1>
+      </div>
+      <div id="pie-chart" *ngIf="pieChartOptions.series">
+        <apx-chart
+          [series]="pieChartOptions.series"
+          [chart]="pieChartOptions.chart"
+          [labels]="pieChartOptions.labels"
+          [responsive]="pieChartOptions.responsive"
+        ></apx-chart>
+      </div>
+    </mat-card>
+  </div> -->
+</div>

@@ -1,0 +1,133 @@
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.toolbar {
+  top: 0;
+  z-index: 12;
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+  background: #fff;
+  box-shadow: 0 3.2px 7.2px 0 rgb(0 0 0 / 13%), 0 0.6px 1.8px 0 rgb(0 0 0 / 10%);
+  border-bottom: 1px solid #e4e8eb;
+  padding: 0;
+  width: 100%;
+  position: sticky;
+  height: 9rem;
+}
+
+.resize {
+  transition: 20ms ease-in-out;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 2rem 1px 2rem;
+  width: 100%;
+}
+
+.chip {
+  border: 1px solid var(--dark-gray);
+  background-color: var(--white);
+}
+.text-logout {
+  padding-right: 0.8rem;
+}
+
+.btn--chip {
+  display: flex;
+  justify-content: center;
+  color: var(--dark-gray);
+  width: fit-content;
+}
+
+.btn--chip:focus {
+  box-shadow: none;
+}
+
+.account-circle-icon {
+  font-size: 3rem;
+}
+
+.login-icon {
+  font-size: 2rem;
+  margin-left: 1rem;
+}
+.bottom span {
+  font-size: 4rem;
+  font-weight: 600;
+  color: #cf2e2e;
+}
+
+.search input {
+  width: 17rem;
+  font-size: 1.5rem;
+  border-radius: 1rem;
+  border: 1px solid gray;
+  padding: 0 1rem;
+  padding-top: 2px;
+}
+
+.search input:focus {
+  outline: none;
+}
+.search-result img {
+  height: 8rem;
+  width: 8rem;
+  border-radius: 1rem;
+}
+.search-result {
+  position: absolute;
+  overflow: auto;
+  max-height: 36rem;
+  height: fit-content;
+
+  width: 27rem;
+  top: 15rem;
+  border-radius: 1rem;
+  box-shadow: 2px 4px 10px 1px rgb(201 201 201 / 47%);
+  z-index: 5;
+  background: #eaeaea;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  gap: 1rem;
+}
+.search-result li {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 1rem;
+  font-size: 1.4rem;
+  border: 1px solid #919da8;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+li span {
+  height: 2.5rem;
+  color: #4a5760;
+  max-width: 20rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+li div {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+input::placeholder {
+  font-size: 1.3rem;
+}

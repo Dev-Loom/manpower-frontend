@@ -1,0 +1,17 @@
+<mat-toolbar class="toolbar">
+  <div class="top">
+    <span>HELLO, {{ userName | uppercase }}</span>
+    <mat-chip-list>
+      <mat-chip class="chip" (click)="onLogout()">
+        <span class="text-logout">LOGOUT</span>
+        <button mat-button mat-icon-button class="btn btn--chip">
+          <mat-icon class="account-circle-icon">account_circle</mat-icon>
+          <mat-icon class="login-icon">logout</mat-icon>
+        </button>
+      </mat-chip>
+    </mat-chip-list>
+  </div>
+  <div class="bottom">
+    <span>CMMS</span>
+  </div>
+</mat-toolbar>
